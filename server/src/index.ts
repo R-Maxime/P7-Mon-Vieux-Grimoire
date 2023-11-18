@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import UserRoutes from './routes/User';
+import BooksRoutes from './routes/Book';
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors());
@@ -23,9 +24,9 @@ app.listen(port, () => {
 
 app.use((req: Request, res: Response, next) => {
     console.log(`[Server]: ${req.method} ${req.path}`);
-    console.log(req.body);
     next();
 });
 
 app.use('/api/auth', UserRoutes);
-// app.use('/api/books', BooksRoutes);
+app.use('/api/books', BooksRoutes);
+app.use('/public', express.static('public'));

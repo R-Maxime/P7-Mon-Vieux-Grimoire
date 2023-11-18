@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { MongoIUserModel } from '../models/User';
 import { Request, Response } from 'express';
 
-export const signup = (req: Request, res: Response) => {
+export function signup(req: Request, res: Response) {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = new MongoIUserModel({
@@ -18,7 +18,7 @@ export const signup = (req: Request, res: Response) => {
     .catch((error: Error) => res.status(500).json({ message: 'Error during process', error }));
 };
 
-export const login = (req: Request, res: Response) => {
+export function login(req: Request, res: Response) {
   MongoIUserModel.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {

@@ -1,8 +1,4 @@
-# Ignorer le fichier .env
 .env
-
-# Ignorer le répertoire node_modules/
 node_modules/
-
-# Ignorer le répertoire dist/
 dist/
+public/
