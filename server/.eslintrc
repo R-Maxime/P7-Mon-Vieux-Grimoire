@@ -1,0 +1,20 @@
+{
+  "extends": "airbnb-base/legacy",
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    "no-console": "off",
+    "max-len": "off",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
+    "guard-for-in": "off",
+    "no-underscore-dangle": "off",
+    "no-continue": "off",
+    "object-curly-newline": "off",
+    "no-restricted-globals": "off",
+    "global-require": "off",
+    "no-param-reassign": "off",
+    "no-prototype-builtins": "off"
+  }
+}
