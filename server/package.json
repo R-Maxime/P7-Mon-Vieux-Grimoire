@@ -20,6 +20,7 @@
     "mongoose": "^7.0.0",
     "mongoose-unique-validator": "^4.0.0",
     "multer": "^1.4.5-lts.1",
+    "sharp": "^0.32.6",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
@@ -30,7 +31,8 @@
     "@types/mongoose": "^5.11.97",
     "@types/mongoose-unique-validator": "^1.0.9",
     "@types/multer": "^1.4.10",
-    "@types/node": "^20.9.1",
+    "@types/node": "^20.9.2",
+    "@types/sharp": "^0.32.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.54.0",
     "eslint-config-airbnb-base": "^15.0.0",
