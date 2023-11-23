@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 
-export interface IUser {
+export interface IUser extends mongoose.Document {
   email: string;
   password: string;
 }

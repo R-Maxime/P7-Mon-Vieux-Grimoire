@@ -1,9 +1,22 @@
 import express from 'express';
 import UserController from '../controllers/User';
-const router = express.Router();
 
-router.post('/signup', UserController.Signup);
-router.post('/login', UserController.Login);
+class UserRoutes {
+    private router: express.Router;
 
-export default router;
+    constructor() {
+        this.router = express.Router();
+        this.setupRoutes();
+    }
 
+    private setupRoutes(): void {
+        this.router.post('/signup', UserController.Signup);
+        this.router.post('/login', UserController.Login);
+    }
+
+    getRouter(): express.Router {
+        return this.router;
+    }
+}
+
+export default new UserRoutes().getRouter();

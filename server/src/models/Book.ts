@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 
-export interface IBook {
+export interface IBook extends mongoose.Document {
   userId: String,  // identifiant MongoDB unique de l'utilisateur qui a créé le livre
   title: String,  // titre du livre
   author: String, // auteur du livre

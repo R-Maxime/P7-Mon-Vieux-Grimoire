@@ -7,26 +7,49 @@ import BooksRoutes from './routes/Book';
 
 dotenv.config();
 
-const app: Express = express();
-const port = process.env.PORT || 4000;
+class App {
+    private expressApp: Express;
 
-app.use(express.json());
-app.use(cors());
+    constructor() {
+        this.expressApp = express();
+        this.setupMiddleware();
+        this.setupRoutes();
+        this.connectToDatabase();
+        this.startServer();
+    }
 
-mongoose.connect(process.env.MONGO_IP as string)
-    .then(() => console.log('[Server]: MongoDB is connected'))
-    .catch((err) => console.log(err));
+    private setupMiddleware(): void {
+        this.expressApp.use(express.json());
+        this.expressApp.use(cors());
 
+        this.expressApp.use((req: Request, res: Response, next) => {
+            console.log(`[Server]: ${req.method} ${req.path}`);
+            next();
+        });
 
-app.listen(port, () => {
-    console.log(`[Server]: I am running at http://localhost:${port}`);
-});
+        this.expressApp.use('/public', express.static('public'));
+    }
 
-app.use((req: Request, res: Response, next) => {
-    console.log(`[Server]: ${req.method} ${req.path}`);
-    next();
-});
+    private setupRoutes(): void {
+        this.expressApp.use('/api/auth', UserRoutes);
+        this.expressApp.use('/api/books', BooksRoutes);
+    }
 
-app.use('/api/auth', UserRoutes);
-app.use('/api/books', BooksRoutes);
-app.use('/public', express.static('public'));
+    private async connectToDatabase(): Promise<void> {
+        try {
+            await mongoose.connect(process.env.MONGO_IP as string);
+            console.log('[Server]: MongoDB is connected');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    private startServer(): void {
+        const port = process.env.PORT || 4000;
+        this.expressApp.listen(port, () => {
+            console.log(`[Server]: I am running at http://localhost:${port}`);
+        });
+    }
+}
+
+new App();

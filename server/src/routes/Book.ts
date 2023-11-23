@@ -1,20 +1,31 @@
 import express from 'express';
 import BookController from '../controllers/Book';
-import auth from '../middlewares/auth';
-import multer from '../middlewares/multer';
-import sharpMiddleware from '../middlewares/sharp';
+import AuthMiddleware from '../middlewares/auth';
+import MulterConfig from '../middlewares/multer';
+import SharpMiddleWare from '../middlewares/sharp';
 const router = express.Router();
 
+class BookRoutes {
+  private router: express.Router;
 
-// https://course.oc-static.com/projects/D%C3%A9veloppeur+Web/DW_P7+Back-end/DW+P7+Back-end+-+Specifications+API.pdf
+  constructor() {
+    this.router = express.Router();
+    this.setupRoutes();
+  }
 
-router.get('/', BookController.GetBooks);
-router.get('/:id', BookController.GetBookById);
-// router.get('/bestrating');
-router.post('/', auth, multer, sharpMiddleware, BookController.PostBook);
-// router.put('/:id',);
-router.delete('/:id', auth, BookController.DeleteBook);
-// router.post('/:id/ratings');
+  private setupRoutes(): void {
+    this.router.get('/', BookController.GetBooks);
+    this.router.get('/:id', BookController.GetBookById);
+    // this.router.get('/bestrating');
+    this.router.post('/', AuthMiddleware.auth, MulterConfig, SharpMiddleWare.process, BookController.PostBook);
+    // this.router.put('/:id',);
+    this.router.delete('/:id', AuthMiddleware.auth, BookController.DeleteBook);
+    // this.router.post('/:id/ratings');
+  }
 
-export default router;
+  getRouter(): express.Router {
+    return this.router;
+  }
+}
 
+export default new BookRoutes().getRouter();
