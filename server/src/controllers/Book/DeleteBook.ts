@@ -2,18 +2,18 @@ import { Book } from '../../models/Book';
 import { Request, Response } from 'express';
 import fs from 'fs/promises';
 
-class DeleteBook {
-  private static bookRepository: Book;
+export default class DeleteBook {
+  bookRepository: Book;
 
   constructor(bookRepository: Book) {
-    DeleteBook.bookRepository = bookRepository;
+    this.bookRepository = bookRepository;
   }
 
   public async delete(req: Request, res: Response) {
     try {
       const bookId = req.params.id;
 
-      const book = await DeleteBook.bookRepository.getBookById(bookId);
+      const book = await this.bookRepository.getBookById(bookId);
 
       if (!book) {
         return res.status(404).json({ message: 'Livre non trouvé' });
@@ -23,7 +23,7 @@ class DeleteBook {
 
       await fs.unlink(`public/img/${filename}`);
 
-      const deleted = await DeleteBook.bookRepository.deleteBook(bookId);
+      const deleted = await this.bookRepository.deleteBook(bookId);
 
       if (!deleted) {
         return res.status(500).json({ message: 'Erreur lors de la suppression' });
@@ -40,6 +40,4 @@ class DeleteBook {
       res.status(500).json({ message: error.message });
     }
   }
-}
-
-export default DeleteBook;
+};

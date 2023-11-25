@@ -15,8 +15,8 @@ class UserRoutes {
     }
 
     private setupRoutes(): void {
-        this.router.post('/signup', this.Signup.signup);
-        this.router.post('/login', this.Login.login);
+        this.router.post('/signup', this.Signup.signup.bind(this.Signup));
+        this.router.post('/login', this.Login.login.bind(this.Login));
     }
 
     getRouter(): express.Router {

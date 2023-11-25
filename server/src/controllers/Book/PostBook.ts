@@ -1,12 +1,11 @@
 import { Book } from '../../models/Book';
 import { Request, Response } from 'express';
-import fs from 'fs';
 
-class PostBook {
-  private static bookRepository: Book;
+export default class PostBook {
+  bookRepository: Book;
 
   constructor(bookRepository: Book) {
-    PostBook.bookRepository = bookRepository;
+    this.bookRepository = bookRepository;
   }
 
   public async post(req: Request, res: Response) {
@@ -20,7 +19,7 @@ class PostBook {
         return res.status(400).json({ message: 'No file provided' });
       }
 
-      const book = await PostBook.bookRepository.createBook({
+      const book = await this.bookRepository.createBook({
         ...bookObject,
         imageUrl: `${req.protocol}://${req.get('host')}/public/img/${req.file.filename}`
       });
@@ -36,6 +35,4 @@ class PostBook {
       res.status(500).json({ message: error.message });
     }
   }
-}
-
-export default PostBook;
+};

@@ -1,16 +1,16 @@
 import { Book } from '../../models/Book';
 import { Request, Response } from 'express';
 
-class GetBookById {
-  private static bookRepository: Book;
+export default class GetBookById {
+bookRepository: Book;
 
   constructor(bookRepository: Book) {
-    GetBookById.bookRepository = bookRepository;
+    this.bookRepository = bookRepository;
   }
 
   public async get(req: Request, res: Response) {
     try {
-      const book = await GetBookById.bookRepository.getBookById(req.params.id);
+      const book = await this.bookRepository.getBookById(req.params.id);
 
       res.status(200).json(book);
     } catch (error: any) {
@@ -19,6 +19,4 @@ class GetBookById {
       res.status(500).json({ message: error.message });
     }
   }
-}
-
-export default GetBookById;
+};

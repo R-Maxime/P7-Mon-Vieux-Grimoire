@@ -15,7 +15,7 @@ class Signup {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
-      const hash = await Signup.hashPassword(req.body.password);
+      const hash = await this.hashPassword(req.body.password);
       if (!hash) {
         return res.status(500).json({ error: 'Error while hashing password' });
       }
@@ -36,7 +36,7 @@ class Signup {
     }
   }
 
-  static async hashPassword(password: string): Promise<string> {
+  async hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, 10);
   }
 }

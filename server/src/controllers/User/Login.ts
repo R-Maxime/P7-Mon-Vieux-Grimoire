@@ -4,10 +4,10 @@ import { User } from '../../models/User';
 import { Request, Response } from 'express';
 
 class Login {
-  static userRepository: User;
+  userRepository: User;
 
   constructor(userRepository: User) {
-    Login.userRepository = userRepository;
+    this.userRepository = userRepository;
   }
 
   async login(req: Request, res: Response) {
@@ -16,19 +16,19 @@ class Login {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
-      const user = await Login.userRepository.getUserByMail(req.body.email);
+      const user = await this.userRepository.getUserByMail(req.body.email);
 
       if (!user) {
         return res.status(401).json({ error: 'Login or password incorrect' });
       }
 
-      const passwordIsValid = await Login.comparePassword(req.body.password, user.password);
+      const passwordIsValid = await this.comparePassword(req.body.password, user.password);
 
       if (!passwordIsValid) {
         return res.status(401).json({ error: 'Login or password incorrect' });
       }
 
-      const token = Login.generateToken(user);
+      const token = this.generateToken(user);
 
       if (!token) {
         console.error('Error while generating token for user: ', user);
@@ -45,11 +45,11 @@ class Login {
     }
   }
 
-  static async comparePassword(password: string, hash: string): Promise<boolean> {
+  async comparePassword(password: string, hash: string): Promise<boolean> {
     return await bcrypt.compare(password, hash);
   }
 
-  static generateToken(user: any): string {
+  generateToken(user: any): string {
     return jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET as string,
