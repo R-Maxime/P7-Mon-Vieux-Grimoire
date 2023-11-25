@@ -1,13 +1,19 @@
-import { MongoIBookModel } from '../../models/Book';
+import { Book } from '../../models/Book';
 import { Request, Response } from 'express';
 import fs from 'fs/promises';
 
 class DeleteBook {
-  static async delete(req: Request, res: Response) {
+  private static bookRepository: Book;
+
+  constructor(bookRepository: Book) {
+    DeleteBook.bookRepository = bookRepository;
+  }
+
+  public async delete(req: Request, res: Response) {
     try {
       const bookId = req.params.id;
 
-      const book = await MongoIBookModel.findOne({ _id: bookId });
+      const book = await DeleteBook.bookRepository.getBookById(bookId);
 
       if (!book) {
         return res.status(404).json({ message: 'Livre non trouvé' });
@@ -17,7 +23,11 @@ class DeleteBook {
 
       await fs.unlink(`public/img/${filename}`);
 
-      await book.deleteOne({ _id: bookId });
+      const deleted = await DeleteBook.bookRepository.deleteBook(bookId);
+
+      if (!deleted) {
+        return res.status(500).json({ message: 'Erreur lors de la suppression' });
+      }
 
       res.status(200).json({ message: 'Livre supprimé' });
     } catch (error: any) {
@@ -32,4 +42,4 @@ class DeleteBook {
   }
 }
 
-export default DeleteBook.delete;
+export default DeleteBook;

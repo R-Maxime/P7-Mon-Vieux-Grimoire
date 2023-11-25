@@ -1,25 +1,44 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import { MongoIUserModel } from '../../models/User';
+import { IUser, User } from '../../models/User';
 
 class Signup {
-  static async signup(req: Request, res: Response) {
-    bcrypt.hash(req.body.password, 10)
-      .then(hash => {
-        const user = new MongoIUserModel({
-          email: req.body.email,
-          password: hash
-        });
+  userRepository: User;
 
-        user.save()
-          .then(() => res.status(201).json({ message: 'User created' }))
-          .catch((error: Error) => res.status(409).json({ message: 'User already exists', error }));
-      })
-      .catch((error: Error) => {
-        console.error(error);
-        res.status(500).json({ message: error.message })
-      });
+  constructor(userRepository: User) {
+    this.userRepository = userRepository;
+  }
+
+  public async signup(req: Request, res: Response) {
+    try {
+      if (!req.body.email || !req.body.password) {
+        return res.status(400).json({ error: 'Missing parameters' });
+      }
+
+      const hash = await Signup.hashPassword(req.body.password);
+      if (!hash) {
+        return res.status(500).json({ error: 'Error while hashing password' });
+      }
+
+      const user = await this.userRepository.createUser({
+        email: req.body.email,
+        password: hash
+      } as IUser);
+
+      if (!user) {
+        return res.status(500).json({ error: 'Error while creating user' });
+      }
+
+      res.status(201).json({ message: 'User created' });
+    } catch (error: any) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  static async hashPassword(password: string): Promise<string> {
+    return await bcrypt.hash(password, 10);
   }
 }
 
-export default Signup.signup;
+export default Signup;

@@ -1,10 +1,16 @@
-import { MongoIBookModel } from '../../models/Book';
+import { Book } from '../../models/Book';
 import { Request, Response } from 'express';
 
 class GetBookById {
-  static async get(req: Request, res: Response) {
+  private static bookRepository: Book;
+
+  constructor(bookRepository: Book) {
+    GetBookById.bookRepository = bookRepository;
+  }
+
+  public async get(req: Request, res: Response) {
     try {
-      const book = await MongoIBookModel.findOne({ _id: req.params.id });
+      const book = await GetBookById.bookRepository.getBookById(req.params.id);
 
       res.status(200).json(book);
     } catch (error: any) {
@@ -15,4 +21,4 @@ class GetBookById {
   }
 }
 
-export default GetBookById.get;
+export default GetBookById;

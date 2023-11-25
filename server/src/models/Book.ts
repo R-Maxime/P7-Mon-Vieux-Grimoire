@@ -31,3 +31,30 @@ const bookSchema = new Schema<IBook>({
 
 bookSchema.plugin(uniqueValidator);
 export const MongoIBookModel = mongoose.model<IBook>("Book", bookSchema);
+
+export class Book {
+  private bookRepository: typeof MongoIBookModel;
+  constructor() {
+    this.bookRepository = MongoIBookModel;
+  }
+
+  public async getBooks(): Promise<IBook[]> {
+    return await this.bookRepository.find();
+  }
+
+  public async getBookById(id: string): Promise<IBook | null> {
+    return await this.bookRepository.findById(id);
+  }
+
+  public async saveBook(bookId: string, newBookData: IBook): Promise<IBook | null> {
+    return await this.bookRepository.findByIdAndUpdate(bookId, newBookData);
+  }
+
+  public async deleteBook(bookId: string): Promise<IBook | null> {
+    return await this.bookRepository.findByIdAndDelete(bookId);
+  }
+
+  public async createBook(bookData: IBook): Promise<IBook> {
+    return await this.bookRepository.create(bookData);
+  }
+}

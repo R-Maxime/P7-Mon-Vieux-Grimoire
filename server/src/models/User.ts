@@ -20,3 +20,18 @@ const userSchema = new Schema<IUser>({
 
 userSchema.plugin(uniqueValidator);
 export const MongoIUserModel = mongoose.model<IUser>("User", userSchema);
+
+export class User {
+  private userRepository: typeof MongoIUserModel;
+  constructor() {
+    this.userRepository = MongoIUserModel;
+  }
+
+  public async getUserByMail(email: string): Promise<IUser | null> {
+    return await this.userRepository.findOne({ email: email });
+  }
+
+  public async createUser(userData: IUser): Promise<IUser> {
+    return await this.userRepository.create(userData);
+  }
+}

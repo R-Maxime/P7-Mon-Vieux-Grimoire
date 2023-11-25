@@ -1,8 +1,13 @@
 import express from 'express';
-import UserController from '../controllers/User';
+import Login from '../controllers/User/Login';
+import Signup from '../controllers/User/Signup';
+import { User } from '../models/User';
 
 class UserRoutes {
     private router: express.Router;
+    private UserRepository: User = new User;
+    private Login: Login = new Login(this.UserRepository);
+    private Signup: Signup = new Signup(this.UserRepository);
 
     constructor() {
         this.router = express.Router();
@@ -10,8 +15,8 @@ class UserRoutes {
     }
 
     private setupRoutes(): void {
-        this.router.post('/signup', UserController.Signup);
-        this.router.post('/login', UserController.Login);
+        this.router.post('/signup', this.Signup.signup);
+        this.router.post('/login', this.Login.login);
     }
 
     getRouter(): express.Router {

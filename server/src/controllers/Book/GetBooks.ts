@@ -1,10 +1,16 @@
-import { MongoIBookModel } from '../../models/Book';
+import { Book } from '../../models/Book';
 import { Request, Response } from 'express';
 
 class GetBooks {
-  static async get(req: Request, res: Response) {
+  private static bookRepository: Book;
+
+  constructor(bookRepository: Book) {
+    GetBooks.bookRepository = bookRepository;
+  }
+
+  public async get(req: Request, res: Response) {
     try {
-      const books = await MongoIBookModel.find();
+      const books = await GetBooks.bookRepository.getBooks();
 
       res.status(200).json(books);
     } catch (error: any) {
@@ -15,4 +21,4 @@ class GetBooks {
   }
 }
 
-export default GetBooks.get;
+export default GetBooks;
