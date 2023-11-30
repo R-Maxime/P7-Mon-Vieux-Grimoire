@@ -5,16 +5,17 @@ import mongoose from 'mongoose';
 import UserRoutes from './routes/User';
 import BooksRoutes from './routes/Book';
 
-dotenv.config();
 
+// https://course.oc-static.com/projects/D%C3%A9veloppeur+Web/DW_P7+Back-end/DW+P7+Back-end+-+Specifications+API.pdf
 class App {
     private expressApp: Express;
 
     constructor() {
+        dotenv.config();
+        this.connectToDatabase();
         this.expressApp = express();
         this.setupMiddleware();
         this.setupRoutes();
-        this.connectToDatabase();
         this.startServer();
     }
 

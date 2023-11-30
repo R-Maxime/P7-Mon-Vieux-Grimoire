@@ -1,13 +1,12 @@
 import express from 'express';
-import Login from '../controllers/User/Login';
-import Signup from '../controllers/User/Signup';
-import { User } from '../models/User';
+import { IUserRepository, MongoDBUserRepository } from '../models/User';
+import UserController from '../controllers/UserController';
+import LoginQuery from '../controllers/User/LoginQuery';
+import SignupQuery from '../controllers/User/SignupQuery';
 
 class UserRoutes {
     private router: express.Router;
-    private UserRepository: User = new User;
-    private Login: Login = new Login(this.UserRepository);
-    private Signup: Signup = new Signup(this.UserRepository);
+    private UserRepository: IUserRepository = new MongoDBUserRepository;
 
     constructor() {
         this.router = express.Router();
@@ -15,8 +14,13 @@ class UserRoutes {
     }
 
     private setupRoutes(): void {
-        this.router.post('/signup', this.Signup.signup.bind(this.Signup));
-        this.router.post('/login', this.Login.login.bind(this.Login));
+        const controller = new UserController(
+            new LoginQuery(this.UserRepository),
+            new SignupQuery(this.UserRepository)
+        );
+
+        this.router.post('/signup', controller.signup.bind(controller));
+        this.router.post('/login', controller.login.bind(controller));
     }
 
     getRouter(): express.Router {

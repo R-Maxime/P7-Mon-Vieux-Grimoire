@@ -32,7 +32,15 @@ const bookSchema = new Schema<IBook>({
 bookSchema.plugin(uniqueValidator);
 export const MongoIBookModel = mongoose.model<IBook>("Book", bookSchema);
 
-export class Book {
+export interface IBookRepository {
+  getBooks(): Promise<IBook[]>;
+  getBookById(id: string): Promise<IBook | null>;
+  saveBook(bookId: string, newBookData: IBook): Promise<IBook | null>;
+  deleteBook(bookId: string): Promise<IBook | null>;
+  createBook(bookData: IBook): Promise<IBook>;
+}
+
+export class MongoDBBookRepository implements IBookRepository {
   private bookRepository: typeof MongoIBookModel;
   constructor() {
     this.bookRepository = MongoIBookModel;

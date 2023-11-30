@@ -21,7 +21,12 @@ const userSchema = new Schema<IUser>({
 userSchema.plugin(uniqueValidator);
 export const MongoIUserModel = mongoose.model<IUser>("User", userSchema);
 
-export class User {
+export interface IUserRepository {
+  getUserByMail(email: string): Promise<IUser | null>;
+  createUser(userData: IUser): Promise<IUser>;
+}
+
+export class MongoDBUserRepository implements IUserRepository {
   private userRepository: typeof MongoIUserModel;
   constructor() {
     this.userRepository = MongoIUserModel;
