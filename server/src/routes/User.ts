@@ -5,27 +5,28 @@ import LoginQuery from '../controllers/User/LoginQuery';
 import SignupQuery from '../controllers/User/SignupQuery';
 
 class UserRoutes {
-    private router: express.Router;
-    private UserRepository: IUserRepository = new MongoDBUserRepository;
+  private router: express.Router;
 
-    constructor() {
-        this.router = express.Router();
-        this.setupRoutes();
-    }
+  private UserRepository: IUserRepository = new MongoDBUserRepository();
 
-    private setupRoutes(): void {
-        const controller = new UserController(
-            new LoginQuery(this.UserRepository),
-            new SignupQuery(this.UserRepository)
-        );
+  constructor() {
+    this.router = express.Router();
+    this.setupRoutes();
+  }
 
-        this.router.post('/signup', controller.signup.bind(controller));
-        this.router.post('/login', controller.login.bind(controller));
-    }
+  private setupRoutes(): void {
+    const controller = new UserController(
+      new LoginQuery(this.UserRepository),
+      new SignupQuery(this.UserRepository),
+    );
 
-    getRouter(): express.Router {
-        return this.router;
-    }
+    this.router.post('/signup', controller.signup.bind(controller));
+    this.router.post('/login', controller.login.bind(controller));
+  }
+
+  getRouter(): express.Router {
+    return this.router;
+  }
 }
 
 export default new UserRoutes().getRouter();

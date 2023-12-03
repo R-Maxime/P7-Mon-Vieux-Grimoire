@@ -1,5 +1,5 @@
-import mongoose, { Schema } from "mongoose";
-import uniqueValidator from "mongoose-unique-validator";
+import mongoose, { Schema } from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
 export interface IUser extends mongoose.Document {
   email: string;
@@ -15,11 +15,11 @@ const userSchema = new Schema<IUser>({
   password: {
     type: String,
     required: true,
-  }
+  },
 });
 
 userSchema.plugin(uniqueValidator);
-export const MongoIUserModel = mongoose.model<IUser>("User", userSchema);
+export const MongoIUserModel = mongoose.model<IUser>('User', userSchema);
 
 export interface IUserRepository {
   getUserByMail(email: string): Promise<IUser | null>;
@@ -28,15 +28,16 @@ export interface IUserRepository {
 
 export class MongoDBUserRepository implements IUserRepository {
   private userRepository: typeof MongoIUserModel;
+
   constructor() {
     this.userRepository = MongoIUserModel;
   }
 
   public async getUserByMail(email: string): Promise<IUser | null> {
-    return await this.userRepository.findOne({ email: email });
+    return this.userRepository.findOne({ email });
   }
 
   public async createUser(userData: IUser): Promise<IUser> {
-    return await this.userRepository.create(userData);
+    return this.userRepository.create(userData);
   }
 }

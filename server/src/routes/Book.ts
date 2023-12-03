@@ -12,6 +12,7 @@ import BookController from '../controllers/BookController';
 
 class BookRoutes {
   private router: express.Router;
+
   private bookRepository: IBookRepository = new MongoDBBookRepository();
 
   constructor() {
@@ -24,20 +25,18 @@ class BookRoutes {
       new RetrieveAllBooksQuery(this.bookRepository),
       new PostBookQuery(this.bookRepository),
       new RetrieveBookByIdQuery(this.bookRepository),
-      new DeleteBookQuery(this.bookRepository)
+      new DeleteBookQuery(this.bookRepository),
     );
 
     this.router.get('/', controller.get.bind(controller));
     this.router.get('/:id', controller.getById.bind(controller));
-    this.router.post('/', AuthMiddleware.auth, MulterConfig, SharpMiddleWare.process, controller.post.bind(controller));
-    this.router.delete('/:id', AuthMiddleware.auth, controller.delete.bind(controller));
+    this.router.post('/', AuthMiddleware, MulterConfig, SharpMiddleWare, controller.post.bind(controller));
+    this.router.delete('/:id', AuthMiddleware, controller.delete.bind(controller));
   }
 
   getRouter(): express.Router {
     return this.router;
   }
 }
-
-
 
 export default new BookRoutes().getRouter();

@@ -1,13 +1,13 @@
-import mongoose, { Schema } from "mongoose";
-import uniqueValidator from "mongoose-unique-validator";
+import mongoose, { Schema } from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
 export interface IBook extends mongoose.Document {
-  userId: String,  // identifiant MongoDB unique de l'utilisateur qui a créé le livre
-  title: String,  // titre du livre
+  userId: String, // identifiant MongoDB unique de l'utilisateur qui a créé le livre
+  title: String, // titre du livre
   author: String, // auteur du livre
   year: Number, // année de publication du livre
   genre: String, // genre du livre
-  imageUrl: String,// illustration/couverture du livre
+  imageUrl: String, // illustration/couverture du livre
   ratings: [{
     userId: String // identifiant MongoDB unique de l'utilisateur qui a noté le livre
     grade: Number // note donnée à un livre
@@ -24,13 +24,13 @@ const bookSchema = new Schema<IBook>({
   imageUrl: { type: String, required: true },
   ratings: [{
     userId: { type: String, required: true },
-    grade: { type: Number, required: true }
+    grade: { type: Number, required: true },
   }],
-  averageRating: { type: Number, required: true }
+  averageRating: { type: Number, required: true },
 });
 
 bookSchema.plugin(uniqueValidator);
-export const MongoIBookModel = mongoose.model<IBook>("Book", bookSchema);
+export const MongoIBookModel = mongoose.model<IBook>('Book', bookSchema);
 
 export interface IBookRepository {
   getBooks(): Promise<IBook[]>;
@@ -42,27 +42,28 @@ export interface IBookRepository {
 
 export class MongoDBBookRepository implements IBookRepository {
   private bookRepository: typeof MongoIBookModel;
+
   constructor() {
     this.bookRepository = MongoIBookModel;
   }
 
   public async getBooks(): Promise<IBook[]> {
-    return await this.bookRepository.find();
+    return this.bookRepository.find();
   }
 
   public async getBookById(id: string): Promise<IBook | null> {
-    return await this.bookRepository.findById(id);
+    return this.bookRepository.findById(id);
   }
 
   public async saveBook(bookId: string, newBookData: IBook): Promise<IBook | null> {
-    return await this.bookRepository.findByIdAndUpdate(bookId, newBookData);
+    return this.bookRepository.findByIdAndUpdate(bookId, newBookData);
   }
 
   public async deleteBook(bookId: string): Promise<IBook | null> {
-    return await this.bookRepository.findByIdAndDelete(bookId);
+    return this.bookRepository.findByIdAndDelete(bookId);
   }
 
   public async createBook(bookData: IBook): Promise<IBook> {
-    return await this.bookRepository.create(bookData);
+    return this.bookRepository.create(bookData);
   }
 }

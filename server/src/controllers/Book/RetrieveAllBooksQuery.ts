@@ -13,13 +13,13 @@ export default class RetrieveAllBooksQuery {
     if (!books) {
       return {
         status: 500,
-        message: 'Error while retrieving books'
-      }
+        message: 'Error while retrieving books',
+      };
     }
 
     return {
       status: 200,
-      data: books
-    }
+      data: books,
+    };
   }
 }

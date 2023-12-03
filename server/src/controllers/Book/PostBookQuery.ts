@@ -13,13 +13,13 @@ export default class PostBookQuery {
     if (!book) {
       return {
         status: 500,
-        message: 'Error while creating book'
-      }
+        message: 'Error while creating book',
+      };
     }
 
     return {
       status: 201,
-      message: 'Book created'
-    }
+      message: 'Book created',
+    };
   }
 }

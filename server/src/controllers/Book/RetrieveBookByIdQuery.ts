@@ -1,5 +1,4 @@
 import { IBookRepository } from '../../models/Book';
-import { Request, Response } from 'express';
 
 export default class RetrieveBookByIdQuery {
   bookRepository: IBookRepository;
@@ -14,13 +13,13 @@ export default class RetrieveBookByIdQuery {
     if (!book) {
       return {
         status: 404,
-        message: 'Book not found'
-      }
+        message: 'Book not found',
+      };
     }
 
     return {
       status: 200,
-      data: book
-    }
+      data: book,
+    };
   }
 }

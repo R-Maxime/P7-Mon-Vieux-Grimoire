@@ -10,11 +10,11 @@ export default class LoginQuery {
   }
 
   async login(email: string, password: string) {
-    if (!email|| !password) {
+    if (!email || !password) {
       return {
         status: 400,
-        message: 'Missing parameters'
-      }
+        message: 'Missing parameters',
+      };
     }
 
     const user = await this.userRepository.getUserByMail(email);
@@ -22,8 +22,8 @@ export default class LoginQuery {
     if (!user) {
       return {
         status: 404,
-        message: 'User not found'
-      }
+        message: 'User not found',
+      };
     }
 
     const passwordIsValid = await this.comparePassword(password, user.password);
@@ -31,8 +31,8 @@ export default class LoginQuery {
     if (!passwordIsValid) {
       return {
         status: 401,
-        message: 'Login or password incorrect'
-      }
+        message: 'Login or password incorrect',
+      };
     }
 
     const token = this.generateToken(user);
@@ -40,27 +40,27 @@ export default class LoginQuery {
     if (!token) {
       return {
         status: 500,
-        message: 'Error while generating token'
-      }
+        message: 'Error while generating token',
+      };
     }
 
     return {
       status: 200,
       data: {
-        token: token
-      }
-    }
+        token,
+      },
+    };
   }
 
-  async comparePassword(password: string, hash: string): Promise<boolean> {
-    return await bcrypt.compare(password, hash);
+  comparePassword(password: string, hash: string): Promise<boolean> {
+    return bcrypt.compare(password, hash);
   }
 
   generateToken(user: any): string {
     return jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET as string,
-      { expiresIn: '24h' }
-    )
+      { expiresIn: '24h' },
+    );
   }
 }

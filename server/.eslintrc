@@ -1,20 +1,21 @@
 {
-  "extends": "airbnb-base/legacy",
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base"
+  ],
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "project": "server/tsconfig.json"
   },
   "rules": {
     "no-console": "off",
-    "max-len": "off",
-    "no-restricted-syntax": "off",
-    "no-await-in-loop": "off",
-    "guard-for-in": "off",
+    "no-new": "off",
+    "indent": "off",
     "no-underscore-dangle": "off",
-    "no-continue": "off",
-    "object-curly-newline": "off",
-    "no-restricted-globals": "off",
-    "global-require": "off",
-    "no-param-reassign": "off",
-    "no-prototype-builtins": "off"
+    "class-methods-use-this": "off"
   }
 }

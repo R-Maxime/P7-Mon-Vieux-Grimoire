@@ -1,15 +1,16 @@
-import RetrieveAllBooksQuery from '../controllers/Book/RetrieveAllBooksQuery';
-import RetrieveBookByIdQuery from '../controllers/Book/RetrieveBookByIdQuery';
-import PostBookQuery from '../controllers/Book/PostBookQuery';
-import DeleteBookQuery from '../controllers/Book/DeleteBookQuery';
 import { Request, Response } from 'express';
+import RetrieveAllBooksQuery from './Book/RetrieveAllBooksQuery';
+import RetrieveBookByIdQuery from './Book/RetrieveBookByIdQuery';
+import PostBookQuery from './Book/PostBookQuery';
+import DeleteBookQuery from './Book/DeleteBookQuery';
 
 export default class BookController {
   constructor(
     private readonly allBooksQuery: RetrieveAllBooksQuery,
     private readonly postBookQuery: PostBookQuery,
     private readonly getByIdQuery: RetrieveBookByIdQuery,
-    private readonly deleteBookQuery: DeleteBookQuery) { }
+    private readonly deleteBookQuery: DeleteBookQuery,
+  ) { }
 
   async get(req: Request, res: Response) {
     try {
@@ -39,7 +40,7 @@ export default class BookController {
 
       const post = await this.postBookQuery.execute({
         ...bookObject,
-        imageUrl
+        imageUrl,
       });
 
       return res.status(post.status).json({ message: post.message });
@@ -62,7 +63,7 @@ export default class BookController {
 
   async delete(req: Request, res: Response) {
     try {
-      const deleted = await this.deleteBookQuery.execute(req, res);
+      const deleted = await this.deleteBookQuery.execute(req);
 
       return res.status(deleted.status).json({ message: deleted.message });
     } catch (error) {

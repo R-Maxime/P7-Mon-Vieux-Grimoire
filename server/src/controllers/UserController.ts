@@ -5,7 +5,7 @@ import SignupQuery from './User/SignupQuery';
 export default class UserController {
   constructor(
     private readonly loginQuery: LoginQuery,
-    private readonly signupQuery: SignupQuery
+    private readonly signupQuery: SignupQuery,
   ) { }
 
   async login(req: Request, res: Response) {

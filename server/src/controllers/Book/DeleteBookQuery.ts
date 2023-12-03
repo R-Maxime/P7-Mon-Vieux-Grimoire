@@ -1,6 +1,6 @@
-import { IBookRepository, MongoDBBookRepository } from '../../models/Book';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import fs from 'fs';
+import { IBookRepository } from '../../models/Book';
 
 export default class DeleteBookQuery {
   private readonly bookRepository: IBookRepository;
@@ -9,7 +9,7 @@ export default class DeleteBookQuery {
     this.bookRepository = deleteBook;
   }
 
-  async execute(req: Request, res: Response) {
+  async execute(req: Request) {
     const bookId = req.params.id;
 
     const book = await this.bookRepository.getBookById(bookId);
@@ -17,7 +17,7 @@ export default class DeleteBookQuery {
     if (!book) {
       return {
         status: 404,
-        message: 'Book not found'
+        message: 'Book not found',
       };
     }
 
@@ -32,13 +32,13 @@ export default class DeleteBookQuery {
     if (!deleted) {
       return {
         status: 500,
-        message: 'Error while deleting book'
+        message: 'Error while deleting book',
       };
     }
 
     return {
       status: 200,
-      message: 'Book deleted'
+      message: 'Book deleted',
     };
   }
 }
