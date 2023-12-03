@@ -16,28 +16,93 @@ export interface IBook extends mongoose.Document {
 }
 
 const bookSchema = new Schema<IBook>({
-  userId: { type: String, required: true },
-  title: { type: String, required: true },
-  author: { type: String, required: true },
-  year: { type: Number, required: true },
-  genre: { type: String, required: true },
-  imageUrl: { type: String, required: true },
+  userId: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
+    required: true,
+  },
+  genre: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
   ratings: [{
-    userId: { type: String, required: true },
-    grade: { type: Number, required: true },
+    userId: {
+      type: String,
+      required: true,
+    },
+    grade: {
+      type: Number,
+      required: true,
+    },
   }],
-  averageRating: { type: Number, required: true },
+  averageRating: {
+    type: Number,
+    required: true,
+  },
 });
 
 bookSchema.plugin(uniqueValidator);
 export const MongoIBookModel = mongoose.model<IBook>('Book', bookSchema);
 
+/**
+ * Represents a repository for managing books.
+ */
 export interface IBookRepository {
+  /**
+   * Retrieves all books.
+   * @returns A promise that resolves to an array of books.
+   */
   getBooks(): Promise<IBook[]>;
+
+  /**
+   * Retrieves a book by its ID.
+   * @param id - The ID of the book.
+   * @returns A promise that resolves to the book with the specified ID, or null if not found.
+   */
   getBookById(id: string): Promise<IBook | null>;
+
+  /**
+   * Saves a book with updated data.
+   * @param bookId - The ID of the book to update.
+   * @param newBookData - The updated book data.
+   * @returns A promise that resolves to the updated book, or null if not found.
+   */
   saveBook(bookId: string, newBookData: IBook): Promise<IBook | null>;
+
+  /**
+   * Deletes a book by its ID.
+   * @param bookId - The ID of the book to delete.
+   * @returns A promise that resolves to the deleted book, or null if not found.
+   */
   deleteBook(bookId: string): Promise<IBook | null>;
+
+  /**
+   * Creates a new book.
+   * @param bookData - The data of the book to create.
+   * @returns A promise that resolves to the created book.
+   */
   createBook(bookData: IBook): Promise<IBook>;
+
+  /**
+   * Retrieves three books with the best rating.
+   * @returns A promise that resolves to an array of books with the best rating.
+   */
+  getBookBestRating(): Promise<IBook[]>;
 }
 
 export class MongoDBBookRepository implements IBookRepository {
@@ -65,5 +130,11 @@ export class MongoDBBookRepository implements IBookRepository {
 
   public async createBook(bookData: IBook): Promise<IBook> {
     return this.bookRepository.create(bookData);
+  }
+
+  public async getBookBestRating(): Promise<IBook[]> {
+    return this.bookRepository.find()
+      .sort({ averageRating: -1 })
+      .limit(3);
   }
 }

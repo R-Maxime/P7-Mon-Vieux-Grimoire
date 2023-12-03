@@ -9,6 +9,7 @@ import RetrieveBookByIdQuery from '../controllers/Book/RetrieveBookByIdQuery';
 import PostBookQuery from '../controllers/Book/PostBookQuery';
 import DeleteBookQuery from '../controllers/Book/DeleteBookQuery';
 import BookController from '../controllers/BookController';
+import RetrieveBookBestRatingQuery from '../controllers/Book/RetrieveBookBestRatingQuery';
 
 class BookRoutes {
   private router: express.Router;
@@ -26,9 +27,11 @@ class BookRoutes {
       new PostBookQuery(this.bookRepository),
       new RetrieveBookByIdQuery(this.bookRepository),
       new DeleteBookQuery(this.bookRepository),
+      new RetrieveBookBestRatingQuery(this.bookRepository),
     );
 
     this.router.get('/', controller.get.bind(controller));
+    this.router.get('/bestrating', controller.getBestRating.bind(controller));
     this.router.get('/:id', controller.getById.bind(controller));
     this.router.post('/', AuthMiddleware, MulterConfig, SharpMiddleWare, controller.post.bind(controller));
     this.router.delete('/:id', AuthMiddleware, controller.delete.bind(controller));
