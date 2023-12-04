@@ -15,7 +15,6 @@
     "no-console": "off",
     "no-new": "off",
     "indent": "off",
-    "no-underscore-dangle": "off",
-    "class-methods-use-this": "off"
+    "no-underscore-dangle": "off"
   }
 }

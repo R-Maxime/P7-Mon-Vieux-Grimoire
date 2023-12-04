@@ -4,8 +4,11 @@ import { IUser, IUserRepository } from '../../models/User';
 export default class SignupQuery {
   userRepository: IUserRepository;
 
+  bcrypt: typeof bcrypt;
+
   constructor(userRepository: IUserRepository) {
     this.userRepository = userRepository;
+    this.bcrypt = bcrypt;
   }
 
   public async signup(email: string, password: string) {
@@ -43,6 +46,6 @@ export default class SignupQuery {
   }
 
   async hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, 10);
+    return this.bcrypt.hash(password, 10);
   }
 }

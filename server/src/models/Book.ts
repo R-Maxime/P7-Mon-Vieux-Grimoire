@@ -103,6 +103,12 @@ export interface IBookRepository {
    * @returns A promise that resolves to an array of books with the best rating.
    */
   getBookBestRating(): Promise<IBook[]>;
+  /**
+ * Updates a book with new data.
+ * @param bookObject - The book object with updated data.
+ * @returns A promise that resolves to the updated book, or null if not found.
+ */
+  updateBook(bookObject: IBook): Promise<IBook | null>;
 }
 
 export class MongoDBBookRepository implements IBookRepository {
@@ -136,5 +142,9 @@ export class MongoDBBookRepository implements IBookRepository {
     return this.bookRepository.find()
       .sort({ averageRating: -1 })
       .limit(3);
+  }
+
+  public async updateBook(bookObject: IBook): Promise<IBook | null> {
+    return this.bookRepository.findByIdAndUpdate(bookObject._id, bookObject);
   }
 }

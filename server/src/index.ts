@@ -9,8 +9,13 @@ import BooksRoutes from './routes/Book';
 class App {
   private expressApp: Express;
 
+  private readonly MONGO_IP: string;
+
+  private readonly API_PORT = process.env.API_PORT || 4000 as Number;
+
   constructor() {
     dotenv.config();
+    this.MONGO_IP = process.env.MONGO_IP as string;
     this.connectToDatabase();
     this.expressApp = express();
     this.setupMiddleware();
@@ -18,12 +23,21 @@ class App {
     this.startServer();
   }
 
+  private async connectToDatabase(): Promise<void> {
+    try {
+      await mongoose.connect(this.MONGO_IP as string);
+      console.info('[Server]: MongoDB is connected');
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   private setupMiddleware(): void {
     this.expressApp.use(express.json());
     this.expressApp.use(cors());
 
     this.expressApp.use((req: Request, res: Response, next) => {
-      console.log(`[Server]: ${req.method} ${req.path}`);
+      console.info(`[Server]: ${req.method} ${req.path}`);
       next();
     });
 
@@ -35,19 +49,9 @@ class App {
     this.expressApp.use('/api/books', BooksRoutes);
   }
 
-  async connectToDatabase(): Promise<void> {
-    try {
-      await mongoose.connect(process.env.MONGO_IP as string);
-      console.log('[Server]: MongoDB is connected');
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   private startServer(): void {
-    const port = process.env.PORT || 4000;
-    this.expressApp.listen(port, () => {
-      console.log(`[Server]: I am running at http://localhost:${port}`);
+    this.expressApp.listen(this.API_PORT, () => {
+      console.info(`[Server]: I am running at http://localhost:${this.API_PORT}`);
     });
   }
 }

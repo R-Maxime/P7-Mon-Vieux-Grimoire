@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import fs from 'fs';
 import { IBookRepository } from '../../models/Book';
+import DeleteImg from '../../utils/DeleteImg';
 
 export default class DeleteBookQuery {
   private readonly bookRepository: IBookRepository;
@@ -21,12 +21,6 @@ export default class DeleteBookQuery {
       };
     }
 
-    const filename = book.imageUrl.split('/img/')[1];
-
-    if (fs.existsSync(`public/img/${filename}`)) {
-      fs.unlinkSync(`public/img/${filename}`);
-    }
-
     const deleted = await this.bookRepository.deleteBook(bookId);
 
     if (!deleted) {
@@ -35,6 +29,8 @@ export default class DeleteBookQuery {
         message: 'Error while deleting book',
       };
     }
+
+    DeleteImg(book);
 
     return {
       status: 200,

@@ -1,6 +1,6 @@
 import { IBookRepository } from '../../models/Book';
 
-export default class RetrieveAllBooksQuery {
+export default class GetAllBooksQuery {
   bookRepository: IBookRepository;
 
   constructor(bookRepository: IBookRepository) {

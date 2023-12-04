@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
-import RetrieveAllBooksQuery from './Book/RetrieveAllBooksQuery';
-import RetrieveBookByIdQuery from './Book/RetrieveBookByIdQuery';
+import GetAllBooksQuery from './Book/GetAllBooksQuery';
+import GetBookByIdQuery from './Book/GetBookByIdQuery';
 import PostBookQuery from './Book/PostBookQuery';
 import DeleteBookQuery from './Book/DeleteBookQuery';
-import RetrieveBookBestRatingQuery from './Book/RetrieveBookBestRatingQuery';
+import GetBookBestRatingQuery from './Book/GetBookBestRatingQuery';
+import PutBookQuery from './Book/PutBookQuery';
+import { IBook } from '../models/Book';
 
 /**
  * Interface for the BookController.
@@ -52,11 +54,12 @@ export interface IBookController {
 
 export default class BookController implements IBookController {
   constructor(
-    private readonly allBooksQuery: RetrieveAllBooksQuery,
+    private readonly allBooksQuery: GetAllBooksQuery,
+    private readonly getByIdQuery: GetBookByIdQuery,
+    private readonly getBestRatingQuery: GetBookBestRatingQuery,
     private readonly postBookQuery: PostBookQuery,
-    private readonly getByIdQuery: RetrieveBookByIdQuery,
     private readonly deleteBookQuery: DeleteBookQuery,
-    private readonly getBestRatingQuery: RetrieveBookBestRatingQuery,
+    private readonly putBookQuery: PutBookQuery,
   ) { }
 
   async get(req: Request, res: Response): Promise<Response> {
@@ -69,7 +72,7 @@ export default class BookController implements IBookController {
 
       return res.status(books.status).json(books.data);
     } catch (error) {
-      // console.error(error);
+      console.error(error);
       return res.status(500).json({ message: 'Error while retrieving books' });
     }
   }
@@ -103,7 +106,7 @@ export default class BookController implements IBookController {
 
       return res.status(get.status).json(get.data);
     } catch (error) {
-      // console.error('Error while retrieving book', error);
+      console.error('Error while retrieving book', error);
       return res.status(500).json({ message: 'Error while retrieving book' });
     }
   }
@@ -131,6 +134,36 @@ export default class BookController implements IBookController {
     } catch (error) {
       console.error('Error while retrieving book', error);
       return res.status(500).json({ message: 'Error while retrieving book' });
+    }
+  }
+
+  async put(req: Request, res: Response): Promise<Response> {
+    try {
+      const bookObject: IBook = req.file ? {
+        ...JSON.parse(req.body.book),
+        imageUrl: `${req.protocol}://${req.get('host')}/public/img/${req.file.filename}`,
+      } : {
+        ...req.body,
+      };
+
+      bookObject._id = req.params.id;
+
+      const book = await this.getByIdQuery.execute(bookObject._id);
+
+      if (!book.data) {
+        return res.status(book.status).json({ message: book.message });
+      }
+
+      if (book.data.userId !== bookObject.userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const put = await this.putBookQuery.execute(bookObject);
+
+      return res.status(put.status).json({ message: put.message });
+    } catch (error) {
+      console.error('Error while updating book', error);
+      return res.status(500).json({ message: 'Error while updating book' });
     }
   }
 }

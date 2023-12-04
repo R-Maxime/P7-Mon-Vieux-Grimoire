@@ -5,8 +5,14 @@ import { IUserRepository } from '../../models/User';
 export default class LoginQuery {
   userRepository: IUserRepository;
 
+  jwt: typeof jwt;
+
+  bcrypt: typeof bcrypt;
+
   constructor(userRepository: IUserRepository) {
     this.userRepository = userRepository;
+    this.jwt = jwt;
+    this.bcrypt = bcrypt;
   }
 
   async login(email: string, password: string) {
@@ -48,16 +54,17 @@ export default class LoginQuery {
       status: 200,
       data: {
         token,
+        userId: user._id,
       },
     };
   }
 
   comparePassword(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
+    return this.bcrypt.compare(password, hash);
   }
 
   generateToken(user: any): string {
-    return jwt.sign(
+    return this.jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET as string,
       { expiresIn: '24h' },

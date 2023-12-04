@@ -1,25 +1,25 @@
 import { IBookRepository } from '../../models/Book';
 
-export default class RetrieveBookBestRatingQuery {
+export default class GetBookByIdQuery {
   bookRepository: IBookRepository;
 
   constructor(bookRepository: IBookRepository) {
     this.bookRepository = bookRepository;
   }
 
-  async execute() {
-    const books = await this.bookRepository.getBookBestRating();
+  async execute(id: string) {
+    const book = await this.bookRepository.getBookById(id);
 
-    if (!books) {
+    if (!book) {
       return {
-        status: 500,
-        message: 'Error while retrieving books',
+        status: 404,
+        message: 'Book not found',
       };
     }
 
     return {
       status: 200,
-      data: books,
+      data: book,
     };
   }
 }

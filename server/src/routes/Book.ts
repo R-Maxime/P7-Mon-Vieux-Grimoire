@@ -4,12 +4,13 @@ import MulterConfig from '../middlewares/multer';
 import SharpMiddleWare from '../middlewares/sharp';
 import { MongoDBBookRepository, IBookRepository } from '../models/Book';
 
-import RetrieveAllBooksQuery from '../controllers/Book/RetrieveAllBooksQuery';
-import RetrieveBookByIdQuery from '../controllers/Book/RetrieveBookByIdQuery';
+import GetAllBooksQuery from '../controllers/Book/GetAllBooksQuery';
+import GetBookByIdQuery from '../controllers/Book/GetBookByIdQuery';
 import PostBookQuery from '../controllers/Book/PostBookQuery';
 import DeleteBookQuery from '../controllers/Book/DeleteBookQuery';
 import BookController from '../controllers/BookController';
-import RetrieveBookBestRatingQuery from '../controllers/Book/RetrieveBookBestRatingQuery';
+import GetBookBestRatingQuery from '../controllers/Book/GetBookBestRatingQuery';
+import PutBookQuery from '../controllers/Book/PutBookQuery';
 
 class BookRoutes {
   private router: express.Router;
@@ -23,16 +24,18 @@ class BookRoutes {
 
   private setupRoutes(): void {
     const controller = new BookController(
-      new RetrieveAllBooksQuery(this.bookRepository),
+      new GetAllBooksQuery(this.bookRepository),
+      new GetBookByIdQuery(this.bookRepository),
+      new GetBookBestRatingQuery(this.bookRepository),
       new PostBookQuery(this.bookRepository),
-      new RetrieveBookByIdQuery(this.bookRepository),
       new DeleteBookQuery(this.bookRepository),
-      new RetrieveBookBestRatingQuery(this.bookRepository),
+      new PutBookQuery(this.bookRepository),
     );
 
     this.router.get('/', controller.get.bind(controller));
     this.router.get('/bestrating', controller.getBestRating.bind(controller));
     this.router.get('/:id', controller.getById.bind(controller));
+    this.router.put('/:id', AuthMiddleware, MulterConfig, SharpMiddleWare, controller.put.bind(controller));
     this.router.post('/', AuthMiddleware, MulterConfig, SharpMiddleWare, controller.post.bind(controller));
     this.router.delete('/:id', AuthMiddleware, controller.delete.bind(controller));
   }
