@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { IUser, IUserRepository } from '../../models/User';
 
-export default class SignupQuery {
+export default class SignupCommand {
   userRepository: IUserRepository;
 
   bcrypt: typeof bcrypt;

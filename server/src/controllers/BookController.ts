@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import GetAllBooksQuery from './Book/GetAllBooksQuery';
 import GetBookByIdQuery from './Book/GetBookByIdQuery';
-import PostBookQuery from './Book/PostBookQuery';
-import DeleteBookQuery from './Book/DeleteBookQuery';
+import PostBookCommand from './Book/PostBookCommand';
+import DeleteBookCommand from './Book/DeleteBookCommand';
 import GetBookBestRatingQuery from './Book/GetBookBestRatingQuery';
-import PutBookQuery from './Book/PutBookQuery';
+import PutBookCommand from './Book/PutBookCommand';
 import { IBook } from '../models/Book';
 
 /**
@@ -57,9 +57,9 @@ export default class BookController implements IBookController {
     private readonly allBooksQuery: GetAllBooksQuery,
     private readonly getByIdQuery: GetBookByIdQuery,
     private readonly getBestRatingQuery: GetBookBestRatingQuery,
-    private readonly postBookQuery: PostBookQuery,
-    private readonly deleteBookQuery: DeleteBookQuery,
-    private readonly putBookQuery: PutBookQuery,
+    private readonly postBookQuery: PostBookCommand,
+    private readonly deleteBookQuery: DeleteBookCommand,
+    private readonly putBookQuery: PutBookCommand,
   ) { }
 
   async get(req: Request, res: Response): Promise<Response> {

@@ -6,11 +6,11 @@ import { MongoDBBookRepository, IBookRepository } from '../models/Book';
 
 import GetAllBooksQuery from '../controllers/Book/GetAllBooksQuery';
 import GetBookByIdQuery from '../controllers/Book/GetBookByIdQuery';
-import PostBookQuery from '../controllers/Book/PostBookQuery';
-import DeleteBookQuery from '../controllers/Book/DeleteBookQuery';
+import PostBookCommand from '../controllers/Book/PostBookCommand';
+import DeleteBookCommand from '../controllers/Book/DeleteBookCommand';
 import BookController from '../controllers/BookController';
 import GetBookBestRatingQuery from '../controllers/Book/GetBookBestRatingQuery';
-import PutBookQuery from '../controllers/Book/PutBookQuery';
+import PutBookCommand from '../controllers/Book/PutBookCommand';
 
 class BookRoutes {
   private router: express.Router;
@@ -27,9 +27,9 @@ class BookRoutes {
       new GetAllBooksQuery(this.bookRepository),
       new GetBookByIdQuery(this.bookRepository),
       new GetBookBestRatingQuery(this.bookRepository),
-      new PostBookQuery(this.bookRepository),
-      new DeleteBookQuery(this.bookRepository),
-      new PutBookQuery(this.bookRepository),
+      new PostBookCommand(this.bookRepository),
+      new DeleteBookCommand(this.bookRepository),
+      new PutBookCommand(this.bookRepository),
     );
 
     this.router.get('/', controller.get.bind(controller));

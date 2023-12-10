@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import LoginQuery from './User/LoginQuery';
-import SignupQuery from './User/SignupQuery';
+import SignupCommand from './User/SignupCommand';
 
 export default class UserController {
   constructor(
     private readonly loginQuery: LoginQuery,
-    private readonly signupQuery: SignupQuery,
+    private readonly signupQuery: SignupCommand,
   ) { }
 
   async login(req: Request, res: Response) {

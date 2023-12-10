@@ -2,7 +2,7 @@ import { Request } from 'express';
 import { IBookRepository } from '../../models/Book';
 import DeleteImg from '../../utils/DeleteImg';
 
-export default class DeleteBookQuery {
+export default class DeleteBookCommand {
   private readonly bookRepository: IBookRepository;
 
   constructor(deleteBook: IBookRepository) {

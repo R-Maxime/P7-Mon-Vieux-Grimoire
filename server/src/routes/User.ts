@@ -2,7 +2,7 @@ import express from 'express';
 import { IUserRepository, MongoDBUserRepository } from '../models/User';
 import UserController from '../controllers/UserController';
 import LoginQuery from '../controllers/User/LoginQuery';
-import SignupQuery from '../controllers/User/SignupQuery';
+import SignupCommand from '../controllers/User/SignupCommand';
 
 class UserRoutes {
   private router: express.Router;
@@ -17,7 +17,7 @@ class UserRoutes {
   private setupRoutes(): void {
     const controller = new UserController(
       new LoginQuery(this.UserRepository),
-      new SignupQuery(this.UserRepository),
+      new SignupCommand(this.UserRepository),
     );
 
     this.router.post('/signup', controller.signup.bind(controller));

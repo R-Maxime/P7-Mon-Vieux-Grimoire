@@ -1,6 +1,7 @@
 import { IBookRepository, IBook } from '../../models/Book';
+import DeleteImg from '../../utils/DeleteImg';
 
-export default class PostBookQuery {
+export default class PutBookCommand {
   bookRepository: IBookRepository;
 
   constructor(bookRepository: IBookRepository) {
@@ -8,18 +9,20 @@ export default class PostBookQuery {
   }
 
   async execute(bookObject: IBook) {
-    const book = await this.bookRepository.createBook(bookObject);
+    const book = await this.bookRepository.updateBook(bookObject);
 
     if (!book) {
       return {
         status: 500,
-        message: 'Error while creating book',
+        message: 'Error while updating book',
       };
     }
 
+    DeleteImg(book);
+
     return {
       status: 201,
-      message: 'Book created',
+      message: 'Book updated',
     };
   }
 }
