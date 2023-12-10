@@ -1,8 +1,8 @@
 import express from 'express';
-import { IUserRepository, MongoDBUserRepository } from '../models/User';
 import UserController from '../controllers/UserController';
 import LoginQuery from '../controllers/User/LoginQuery';
 import SignupCommand from '../controllers/User/SignupCommand';
+import { IUserRepository, MongoDBUserRepository } from '../repositories/IUserRepository';
 
 class UserRoutes {
   private router: express.Router;

@@ -2,7 +2,7 @@ import express from 'express';
 import AuthMiddleware from '../middlewares/auth';
 import MulterConfig from '../middlewares/multer';
 import SharpMiddleWare from '../middlewares/sharp';
-import { MongoDBBookRepository, IBookRepository } from '../models/Book';
+import { MongoDBBookRepository, IBookRepository } from '../repositories/IBookRepository';
 
 import GetAllBooksQuery from '../controllers/Book/GetAllBooksQuery';
 import GetBookByIdQuery from '../controllers/Book/GetBookByIdQuery';

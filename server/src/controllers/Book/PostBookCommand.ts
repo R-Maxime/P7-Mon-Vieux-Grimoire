@@ -1,4 +1,5 @@
-import { IBookRepository, IBook } from '../../models/Book';
+import { IBook } from '../../models/Book';
+import { IBookRepository } from '../../repositories/IBookRepository';
 
 export default class PostBookCommand {
   bookRepository: IBookRepository;

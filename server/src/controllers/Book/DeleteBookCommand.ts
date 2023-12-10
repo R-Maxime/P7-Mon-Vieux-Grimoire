@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { IBookRepository } from '../../models/Book';
 import DeleteImg from '../../utils/DeleteImg';
+import { IBookRepository } from '../../repositories/IBookRepository';
 
 export default class DeleteBookCommand {
   private readonly bookRepository: IBookRepository;

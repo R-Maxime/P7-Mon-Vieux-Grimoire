@@ -7,52 +7,7 @@ import GetBookBestRatingQuery from './Book/GetBookBestRatingQuery';
 import PutBookCommand from './Book/PutBookCommand';
 import { IBook } from '../models/Book';
 
-/**
- * Interface for the BookController.
- */
-export interface IBookController {
-  /**
-   * Get all books.
-   * @param req - The request object.
-   * @param res - The response object.
-   * @returns A promise that resolves to the response.
-   */
-  get(req: Request, res: Response): Promise<Response>;
-
-  /**
-   * Create a new book.
-   * @param req - The request object.
-   * @param res - The response object.
-   * @returns A promise that resolves to the response.
-   */
-  post(req: Request, res: Response): Promise<Response>;
-
-  /**
-   * Get a book by its ID.
-   * @param req - The request object.
-   * @param res - The response object.
-   * @returns A promise that resolves to the response.
-   */
-  getById(req: Request, res: Response): Promise<Response>;
-
-  /**
-   * Delete a book by its ID.
-   * @param req - The request object.
-   * @param res - The response object.
-   * @returns A promise that resolves to the response.
-   */
-  delete(req: Request, res: Response): Promise<Response>;
-
-  /**
-   * Get the books with the best rating.
-   * @param req - The request object.
-   * @param res - The response object.
-   * @returns A promise that resolves to the response.
-   */
-  getBestRating(req: Request, res: Response): Promise<Response>;
-}
-
-export default class BookController implements IBookController {
+export default class BookController {
   constructor(
     private readonly allBooksQuery: GetAllBooksQuery,
     private readonly getByIdQuery: GetBookByIdQuery,
