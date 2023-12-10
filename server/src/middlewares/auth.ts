@@ -12,7 +12,7 @@ export default function Auth(req: Request, res: Response, next: Function) {
     const { userId } = decodedToken;
 
     if (req.body.userId && req.body.userId !== userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(403).json({ error: 'Unauthorized' });
     }
 
     next();

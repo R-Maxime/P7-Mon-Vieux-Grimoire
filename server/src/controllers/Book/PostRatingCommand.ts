@@ -1,31 +1,27 @@
 import { IBook } from '../../models/Book';
 import { IBookRepository } from '../../repositories/IBookRepository';
-import DeleteImg from '../../utils/DeleteImg';
 
-export default class PutBookCommand {
+export default class PostRatingCommand {
   bookRepository: IBookRepository;
 
   constructor(bookRepository: IBookRepository) {
     this.bookRepository = bookRepository;
   }
 
-  async execute(bookObject: IBook, toDelete: boolean) {
-    const book = await this.bookRepository.updateBook(bookObject);
+  async execute(book: IBook) {
+    const updated = await this.bookRepository.updateBook(book);
 
-    if (!book) {
+    if (!updated) {
       return {
         status: 500,
         message: 'Error while updating book',
       };
     }
 
-    if (toDelete) {
-      DeleteImg(book);
-    }
-
     return {
       status: 201,
       message: 'Book updated',
+      data: updated,
     };
   }
 }

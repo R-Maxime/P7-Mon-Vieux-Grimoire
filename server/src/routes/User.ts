@@ -1,5 +1,5 @@
 import express from 'express';
-import UserController from '../controllers/UserController';
+import UserController from '../express/User';
 import LoginQuery from '../controllers/User/LoginQuery';
 import SignupCommand from '../controllers/User/SignupCommand';
 import { IUserRepository, MongoDBUserRepository } from '../repositories/IUserRepository';

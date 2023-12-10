@@ -8,9 +8,10 @@ import GetAllBooksQuery from '../controllers/Book/GetAllBooksQuery';
 import GetBookByIdQuery from '../controllers/Book/GetBookByIdQuery';
 import PostBookCommand from '../controllers/Book/PostBookCommand';
 import DeleteBookCommand from '../controllers/Book/DeleteBookCommand';
-import BookController from '../controllers/BookController';
+import BookController from '../express/Book';
 import GetBookBestRatingQuery from '../controllers/Book/GetBookBestRatingQuery';
 import PutBookCommand from '../controllers/Book/PutBookCommand';
+import PostRatingCommand from '../controllers/Book/PostRatingCommand';
 
 class BookRoutes {
   private router: express.Router;
@@ -30,14 +31,16 @@ class BookRoutes {
       new PostBookCommand(this.bookRepository),
       new DeleteBookCommand(this.bookRepository),
       new PutBookCommand(this.bookRepository),
+      new PostRatingCommand(this.bookRepository),
     );
 
-    this.router.get('/', controller.get.bind(controller));
+    this.router.get('/', controller.getAllBooks.bind(controller));
     this.router.get('/bestrating', controller.getBestRating.bind(controller));
     this.router.get('/:id', controller.getById.bind(controller));
-    this.router.put('/:id', AuthMiddleware, MulterConfig, SharpMiddleWare, controller.put.bind(controller));
-    this.router.post('/', AuthMiddleware, MulterConfig, SharpMiddleWare, controller.post.bind(controller));
-    this.router.delete('/:id', AuthMiddleware, controller.delete.bind(controller));
+    this.router.put('/:id', AuthMiddleware, MulterConfig, SharpMiddleWare, controller.putBookById.bind(controller));
+    this.router.post('/', AuthMiddleware, MulterConfig, SharpMiddleWare, controller.postBook.bind(controller));
+    this.router.post('/:id/rating', AuthMiddleware, controller.postRatingById.bind(controller));
+    this.router.delete('/:id', AuthMiddleware, controller.deleteBookById.bind(controller));
   }
 
   getRouter(): express.Router {
