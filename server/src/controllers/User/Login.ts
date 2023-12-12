@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import LoginQuery from './Usecase/LoginQuery';
+import ILogin from '../Interfaces/User/ILogin';
 
-export default class Login {
+export default class Login implements ILogin {
   loginQuery: LoginQuery;
 
   constructor(loginQuery: LoginQuery) {
     this.loginQuery = loginQuery;
   }
 
-  async execute(req: Request, res: Response) {
+  async execute(req: Request, res: Response): Promise<Response> {
     try {
       const { email, password } = req.body;
 

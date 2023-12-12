@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { IUserRepository } from '../../../repositories/IUserRepository';
+import ILoginQuery, { ILoginResponse } from '../../Interfaces/User/Usecase/ILoginQuery';
+import IUserRepository from '../../../repositories/Interfaces/IUserRepository';
 
-export default class LoginQuery {
+export default class LoginQuery implements ILoginQuery {
   userRepository: IUserRepository;
 
   jwt: typeof jwt;
@@ -15,7 +16,7 @@ export default class LoginQuery {
     this.bcrypt = bcrypt;
   }
 
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<ILoginResponse> {
     if (!email || !password) {
       return {
         status: 400,

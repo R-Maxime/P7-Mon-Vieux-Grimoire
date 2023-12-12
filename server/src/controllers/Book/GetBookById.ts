@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import GetBookByIdQuery from './Usecase/GetBookByIdQuery';
+import IGetBookById from '../Interfaces/Book/IGetBookById';
 
-export default class GetBookById {
+export default class GetBookById implements IGetBookById {
   getByIdQuery: GetBookByIdQuery;
 
   constructor(getByIdQuery: GetBookByIdQuery) {

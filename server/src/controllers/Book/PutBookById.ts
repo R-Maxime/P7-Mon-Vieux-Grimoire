@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import { IBook } from '../../models/Book';
 import GetBookByIdQuery from './Usecase/GetBookByIdQuery';
 import PutBookCommand from './Usecase/PutBookCommand';
+import IPutBookById from '../Interfaces/Book/IPutBookById';
 
-export default class PutBookById {
+export default class PutBookById implements IPutBookById {
   getByIdQuery: GetBookByIdQuery;
 
   putBookCommand: PutBookCommand;

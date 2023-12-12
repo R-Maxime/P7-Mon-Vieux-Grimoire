@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import PostBookCommand from './Usecase/PostBookCommand';
+import IPostBook from '../Interfaces/Book/IPostBook';
 
-export default class PostBook {
+export default class PostBook implements IPostBook {
   postBookCommand: PostBookCommand;
 
   constructor(postBookCommand: PostBookCommand) {
@@ -19,10 +20,8 @@ export default class PostBook {
 
       const imageUrl = `${req.protocol}://${req.get('host')}/public/img/${req.file.filename}`;
 
-      if (bookObject.ratings[0].grade <= 0 || bookObject.ratings[0].grade > 5) {
-        bookObject.ratings = [];
-        bookObject.averageRating = 0;
-      }
+      bookObject.ratings = [];
+      bookObject.averageRating = 0;
 
       const post = await this.postBookCommand.execute({
         ...bookObject,

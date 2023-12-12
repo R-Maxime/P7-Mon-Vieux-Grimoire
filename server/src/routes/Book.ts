@@ -2,7 +2,6 @@ import express from 'express';
 import AuthMiddleware from '../middlewares/auth';
 import MulterConfig from '../middlewares/multer';
 import SharpMiddleWare from '../middlewares/sharp';
-import { MongoDBBookRepository, IBookRepository } from '../repositories/IBookRepository';
 import BookController from '../controllers/BookController';
 import GetAllBooksQuery from '../controllers/Book/Usecase/GetAllBooksQuery';
 import GetBookByIdQuery from '../controllers/Book/Usecase/GetBookByIdQuery';
@@ -11,6 +10,8 @@ import PostBookCommand from '../controllers/Book/Usecase/PostBookCommand';
 import DeleteBookCommand from '../controllers/Book/Usecase/DeleteBookCommand';
 import PutBookCommand from '../controllers/Book/Usecase/PutBookCommand';
 import PostRatingCommand from '../controllers/Book/Usecase/PostRatingCommand';
+import IBookRepository from '../repositories/Interfaces/IBookRepository';
+import MongoDBBookRepository from '../repositories/MongoDBBookRepository';
 
 class BookRoutes {
   private router: express.Router;

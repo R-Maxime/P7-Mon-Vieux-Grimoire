@@ -13,16 +13,17 @@ import PostBookCommand from './Book/Usecase/PostBookCommand';
 import DeleteBookCommand from './Book/Usecase/DeleteBookCommand';
 import PutBookCommand from './Book/Usecase/PutBookCommand';
 import PostRatingCommand from './Book/Usecase/PostRatingCommand';
+import IBookController from './Interfaces/IBookController';
 
-export default class BookController {
+export default class BookController implements IBookController {
   constructor(
-    private readonly allBooksQuery: GetAllBooksQuery,
-    private readonly getByIdQuery: GetBookByIdQuery,
-    private readonly getBestRatingQuery: GetBookBestRatingQuery,
-    private readonly postBookCommand: PostBookCommand,
-    private readonly deleteBookCommand: DeleteBookCommand,
-    private readonly putBookCommand: PutBookCommand,
-    private readonly postRatingCommand: PostRatingCommand,
+    readonly allBooksQuery: GetAllBooksQuery,
+    readonly getByIdQuery: GetBookByIdQuery,
+    readonly getBestRatingQuery: GetBookBestRatingQuery,
+    readonly postBookCommand: PostBookCommand,
+    readonly deleteBookCommand: DeleteBookCommand,
+    readonly putBookCommand: PutBookCommand,
+    readonly postRatingCommand: PostRatingCommand,
   ) { }
 
   async getAllBooks(req: Request, res: Response): Promise<Response> {

@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import GetBookByIdQuery from './Usecase/GetBookByIdQuery';
 import PostRatingCommand from './Usecase/PostRatingCommand';
+import IPostRatingById from '../Interfaces/Book/IPostRatingById';
 
-export default class PostRatingById {
+export default class PostRatingById implements IPostRatingById {
   getByIdQuery: GetBookByIdQuery;
 
   postRatingCommand: PostRatingCommand;

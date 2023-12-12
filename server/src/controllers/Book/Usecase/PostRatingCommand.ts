@@ -1,14 +1,16 @@
 import { IBook } from '../../../models/Book';
-import { IBookRepository } from '../../../repositories/IBookRepository';
+import IBookRepository from '../../../repositories/Interfaces/IBookRepository';
+import IBookUseCaseResponse from '../../Interfaces/Book/Usecase/IBookUseCaseResponse';
+import IPostRatingCommand from '../../Interfaces/Book/Usecase/IPostRatingCommand';
 
-export default class PostRatingCommand {
+export default class PostRatingCommand implements IPostRatingCommand {
   bookRepository: IBookRepository;
 
   constructor(bookRepository: IBookRepository) {
     this.bookRepository = bookRepository;
   }
 
-  async execute(book: IBook) {
+  async execute(book: IBook): Promise<IBookUseCaseResponse> {
     const updated = await this.bookRepository.updateBook(book);
 
     if (!updated) {

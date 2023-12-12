@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import SignupCommand from './Usecase/SignupCommand';
+import ISignup from '../Interfaces/User/ISignup';
 
-export default class Signup {
+export default class Signup implements ISignup {
   signupQuery: SignupCommand;
 
   constructor(signupQuery: SignupCommand) {

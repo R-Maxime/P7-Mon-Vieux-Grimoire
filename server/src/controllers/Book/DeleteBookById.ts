@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import DeleteBookCommand from './Usecase/DeleteBookCommand';
+import IDeleteBookById from '../Interfaces/Book/IDeleteBookById';
 
-export default class DeleteBookById {
+export default class DeleteBookById implements IDeleteBookById {
   deleteBookCommand: DeleteBookCommand;
 
   constructor(deleteBookCommand: DeleteBookCommand) {

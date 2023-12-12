@@ -1,15 +1,17 @@
 import { Request } from 'express';
-import { IBookRepository } from '../../../repositories/IBookRepository';
 import DeleteImg from '../../../utils/DeleteImg';
+import IBookUseCaseResponse from '../../Interfaces/Book/Usecase/IBookUseCaseResponse';
+import IDeleteBookCommand from '../../Interfaces/Book/Usecase/IDeleteBookCommand';
+import IBookRepository from '../../../repositories/Interfaces/IBookRepository';
 
-export default class DeleteBookCommand {
-  private readonly bookRepository: IBookRepository;
+export default class DeleteBookCommand implements IDeleteBookCommand {
+  readonly bookRepository: IBookRepository;
 
   constructor(deleteBook: IBookRepository) {
     this.bookRepository = deleteBook;
   }
 
-  async execute(req: Request) {
+  async execute(req: Request): Promise<IBookUseCaseResponse> {
     const bookId = req.params.id;
 
     const book = await this.bookRepository.getBookById(bookId);

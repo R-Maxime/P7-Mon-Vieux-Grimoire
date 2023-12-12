@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
-import { IUserRepository } from '../../../repositories/IUserRepository';
 import { IUser } from '../../../models/User';
+import { ISignupResponse } from '../../Interfaces/User/Usecase/ISignupCommand';
+import IUserRepository from '../../../repositories/Interfaces/IUserRepository';
 
 export default class SignupCommand {
   userRepository: IUserRepository;
@@ -12,7 +13,7 @@ export default class SignupCommand {
     this.bcrypt = bcrypt;
   }
 
-  public async signup(email: string, password: string) {
+  public async signup(email: string, password: string): Promise<ISignupResponse> {
     if (!email || !password) {
       return {
         status: 400,

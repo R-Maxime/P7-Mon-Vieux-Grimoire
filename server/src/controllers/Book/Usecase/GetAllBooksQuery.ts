@@ -1,13 +1,15 @@
-import { IBookRepository } from '../../../repositories/IBookRepository';
+import IBookRepository from '../../../repositories/Interfaces/IBookRepository';
+import IBookUseCaseResponse from '../../Interfaces/Book/Usecase/IBookUseCaseResponse';
+import IGetAllBooksQuery from '../../Interfaces/Book/Usecase/IGetAllBooksQuery';
 
-export default class GetAllBooksQuery {
+export default class GetAllBooksQuery implements IGetAllBooksQuery {
   bookRepository: IBookRepository;
 
   constructor(bookRepository: IBookRepository) {
     this.bookRepository = bookRepository;
   }
 
-  async execute() {
+  async execute(): Promise<IBookUseCaseResponse> {
     const books = await this.bookRepository.getBooks();
 
     if (!books) {
@@ -19,7 +21,7 @@ export default class GetAllBooksQuery {
 
     return {
       status: 200,
-      data: books,
+      datas: books,
     };
   }
 }

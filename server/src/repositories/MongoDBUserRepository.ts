@@ -1,12 +1,8 @@
 import { IUser, MongoIUserModel } from '../models/User';
+import IUserRepository from './Interfaces/IUserRepository';
 
-export interface IUserRepository {
-  getUserByMail(email: string): Promise<IUser | null>;
-  createUser(userData: IUser): Promise<IUser>;
-}
-
-export class MongoDBUserRepository implements IUserRepository {
-  private userRepository: typeof MongoIUserModel;
+export default class MongoDBUserRepository implements IUserRepository {
+  readonly userRepository: typeof MongoIUserModel;
 
   constructor() {
     this.userRepository = MongoIUserModel;
