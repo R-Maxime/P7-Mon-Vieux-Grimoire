@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import { IUserRepository } from '../../repositories/IUserRepository';
-import { IUser } from '../../models/User';
+import { IUserRepository } from '../../../repositories/IUserRepository';
+import { IUser } from '../../../models/User';
 
 export default class SignupCommand {
   userRepository: IUserRepository;

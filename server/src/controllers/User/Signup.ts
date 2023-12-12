@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import SignupCommand from '../../controllers/User/SignupCommand';
+import SignupCommand from './Usecase/SignupCommand';
 
 export default class Signup {
   signupQuery: SignupCommand;

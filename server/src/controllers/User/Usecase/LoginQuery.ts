@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { IUserRepository } from '../../repositories/IUserRepository';
+import { IUserRepository } from '../../../repositories/IUserRepository';
 
 export default class LoginQuery {
   userRepository: IUserRepository;

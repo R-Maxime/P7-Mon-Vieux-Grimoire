@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import GetBookByIdQuery from '../../controllers/Book/GetBookByIdQuery';
+import GetBookByIdQuery from './Usecase/GetBookByIdQuery';
 
 export default class GetBookById {
   getByIdQuery: GetBookByIdQuery;

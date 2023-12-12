@@ -1,7 +1,7 @@
 import express from 'express';
-import UserController from '../express/User';
-import LoginQuery from '../controllers/User/LoginQuery';
-import SignupCommand from '../controllers/User/SignupCommand';
+import UserController from '../controllers/UserController';
+import LoginQuery from '../controllers/User/Usecase/LoginQuery';
+import SignupCommand from '../controllers/User/Usecase/SignupCommand';
 import { IUserRepository, MongoDBUserRepository } from '../repositories/IUserRepository';
 
 class UserRoutes {

@@ -3,15 +3,14 @@ import AuthMiddleware from '../middlewares/auth';
 import MulterConfig from '../middlewares/multer';
 import SharpMiddleWare from '../middlewares/sharp';
 import { MongoDBBookRepository, IBookRepository } from '../repositories/IBookRepository';
-
-import GetAllBooksQuery from '../controllers/Book/GetAllBooksQuery';
-import GetBookByIdQuery from '../controllers/Book/GetBookByIdQuery';
-import PostBookCommand from '../controllers/Book/PostBookCommand';
-import DeleteBookCommand from '../controllers/Book/DeleteBookCommand';
-import BookController from '../express/Book';
-import GetBookBestRatingQuery from '../controllers/Book/GetBookBestRatingQuery';
-import PutBookCommand from '../controllers/Book/PutBookCommand';
-import PostRatingCommand from '../controllers/Book/PostRatingCommand';
+import BookController from '../controllers/BookController';
+import GetAllBooksQuery from '../controllers/Book/Usecase/GetAllBooksQuery';
+import GetBookByIdQuery from '../controllers/Book/Usecase/GetBookByIdQuery';
+import GetBookBestRatingQuery from '../controllers/Book/Usecase/GetBookBestRatingQuery';
+import PostBookCommand from '../controllers/Book/Usecase/PostBookCommand';
+import DeleteBookCommand from '../controllers/Book/Usecase/DeleteBookCommand';
+import PutBookCommand from '../controllers/Book/Usecase/PutBookCommand';
+import PostRatingCommand from '../controllers/Book/Usecase/PostRatingCommand';
 
 class BookRoutes {
   private router: express.Router;

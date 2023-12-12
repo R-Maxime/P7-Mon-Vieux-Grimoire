@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import PostBookCommand from '../../controllers/Book/PostBookCommand';
+import PostBookCommand from './Usecase/PostBookCommand';
 
 export default class PostBook {
   postBookCommand: PostBookCommand;

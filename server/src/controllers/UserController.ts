@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import LoginQuery from '../controllers/User/LoginQuery';
-import SignupCommand from '../controllers/User/SignupCommand';
+import LoginQuery from './User/Usecase/LoginQuery';
+import SignupCommand from './User/Usecase/SignupCommand';
 import Login from './User/Login';
 import Signup from './User/Signup';
 

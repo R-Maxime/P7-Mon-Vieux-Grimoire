@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import GetBookBestRatingQuery from '../../controllers/Book/GetBookBestRatingQuery';
+import GetBookBestRatingQuery from './Usecase/GetBookBestRatingQuery';
 
 export default class GetBestRatings {
   getBestRatingQuery: GetBookBestRatingQuery;

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import GetBookByIdQuery from '../../controllers/Book/GetBookByIdQuery';
-import PutBookCommand from '../../controllers/Book/PutBookCommand';
 import { IBook } from '../../models/Book';
+import GetBookByIdQuery from './Usecase/GetBookByIdQuery';
+import PutBookCommand from './Usecase/PutBookCommand';
 
 export default class PutBookById {
   getByIdQuery: GetBookByIdQuery;

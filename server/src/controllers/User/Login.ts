@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import LoginQuery from '../../controllers/User/LoginQuery';
+import LoginQuery from './Usecase/LoginQuery';
 
 export default class Login {
   loginQuery: LoginQuery;

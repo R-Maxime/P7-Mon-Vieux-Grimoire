@@ -1,6 +1,6 @@
-import { IBookRepository } from '../../repositories/IBookRepository';
+import { IBookRepository } from '../../../repositories/IBookRepository';
 
-export default class GetAllBooksQuery {
+export default class GetBookBestRatingQuery {
   bookRepository: IBookRepository;
 
   constructor(bookRepository: IBookRepository) {
@@ -8,7 +8,7 @@ export default class GetAllBooksQuery {
   }
 
   async execute() {
-    const books = await this.bookRepository.getBooks();
+    const books = await this.bookRepository.getBookBestRating();
 
     if (!books) {
       return {

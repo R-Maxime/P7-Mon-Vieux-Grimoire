@@ -1,5 +1,5 @@
-import { IBook } from '../../models/Book';
-import { IBookRepository } from '../../repositories/IBookRepository';
+import { IBook } from '../../../models/Book';
+import { IBookRepository } from '../../../repositories/IBookRepository';
 
 export default class PostRatingCommand {
   bookRepository: IBookRepository;

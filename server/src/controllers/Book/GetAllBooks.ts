@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import GetAllBooksQuery from '../../controllers/Book/GetAllBooksQuery';
+import GetAllBooksQuery from './Usecase/GetAllBooksQuery';
 
 export default class GetAllBooks {
   allBooksQuery: GetAllBooksQuery;

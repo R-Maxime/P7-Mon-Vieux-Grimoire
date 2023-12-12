@@ -1,11 +1,4 @@
 import { Request, Response } from 'express';
-import GetAllBooksQuery from '../controllers/Book/GetAllBooksQuery';
-import GetBookByIdQuery from '../controllers/Book/GetBookByIdQuery';
-import PostBookCommand from '../controllers/Book/PostBookCommand';
-import DeleteBookCommand from '../controllers/Book/DeleteBookCommand';
-import GetBookBestRatingQuery from '../controllers/Book/GetBookBestRatingQuery';
-import PutBookCommand from '../controllers/Book/PutBookCommand';
-import PostRatingCommand from '../controllers/Book/PostRatingCommand';
 import GetAllBooks from './Book/GetAllBooks';
 import PostBook from './Book/PostBook';
 import GetBookById from './Book/GetBookById';
@@ -13,6 +6,13 @@ import DeleteBookById from './Book/DeleteBookById';
 import GetBestRatings from './Book/GetBestRatings';
 import PutBookById from './Book/PutBookById';
 import PostRatingById from './Book/PostRatingById';
+import GetAllBooksQuery from './Book/Usecase/GetAllBooksQuery';
+import GetBookByIdQuery from './Book/Usecase/GetBookByIdQuery';
+import GetBookBestRatingQuery from './Book/Usecase/GetBookBestRatingQuery';
+import PostBookCommand from './Book/Usecase/PostBookCommand';
+import DeleteBookCommand from './Book/Usecase/DeleteBookCommand';
+import PutBookCommand from './Book/Usecase/PutBookCommand';
+import PostRatingCommand from './Book/Usecase/PostRatingCommand';
 
 export default class BookController {
   constructor(

@@ -1,4 +1,4 @@
-import { IBookRepository } from '../../repositories/IBookRepository';
+import { IBookRepository } from '../../../repositories/IBookRepository';
 
 export default class GetBookByIdQuery {
   bookRepository: IBookRepository;

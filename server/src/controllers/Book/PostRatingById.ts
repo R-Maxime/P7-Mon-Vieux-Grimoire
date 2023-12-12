@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import GetBookByIdQuery from '../../controllers/Book/GetBookByIdQuery';
-import PostRatingCommand from '../../controllers/Book/PostRatingCommand';
+import GetBookByIdQuery from './Usecase/GetBookByIdQuery';
+import PostRatingCommand from './Usecase/PostRatingCommand';
 
 export default class PostRatingById {
   getByIdQuery: GetBookByIdQuery;

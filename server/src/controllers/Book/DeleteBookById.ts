@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import DeleteBookCommand from '../../controllers/Book/DeleteBookCommand';
+import DeleteBookCommand from './Usecase/DeleteBookCommand';
 
 export default class DeleteBookById {
   deleteBookCommand: DeleteBookCommand;
