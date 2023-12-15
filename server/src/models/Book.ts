@@ -1,18 +1,18 @@
 import mongoose, { Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
-export interface IBook extends mongoose.Document {
-  userId: String, // identifiant MongoDB unique de l'utilisateur qui a créé le livre
-  title: String, // titre du livre
-  author: String, // auteur du livre
-  year: Number, // année de publication du livre
-  genre: String, // genre du livre
-  imageUrl: String, // illustration/couverture du livre
+export interface IBook {
+  userId: String,
+  title: String,
+  author: String,
+  year: Number,
+  genre: String,
+  imageUrl: String,
   ratings: [{
-    userId: String // identifiant MongoDB unique de l'utilisateur qui a noté le livre
-    grade: Number // note donnée à un livre
-  }], // notes données à un livre
-  averageRating: Number // note moyenne du livre
+    userId: String
+    grade: Number
+  }],
+  averageRating: Number
 }
 
 const bookSchema = new Schema<IBook>({

@@ -13,11 +13,7 @@ export default class GetBestRatings implements IGetBestRatings {
     try {
       const bestRating = await this.getBestRatingQuery.execute();
 
-      if (!bestRating.datas) {
-        return res.status(bestRating.status).json({ message: bestRating.message });
-      }
-
-      return res.status(bestRating.status).json(bestRating.datas);
+      return res.status(200).json(bestRating);
     } catch (error) {
       console.error('Error while retrieving book', error);
       return res.status(500).json({ message: 'Error while retrieving book', error });

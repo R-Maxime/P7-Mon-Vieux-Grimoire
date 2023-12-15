@@ -11,9 +11,9 @@ export default class GetBookById implements IGetBookById {
 
   async execute(req: Request, res: Response): Promise<Response> {
     try {
-      const get = await this.getByIdQuery.execute(req.params.id);
+      const book = await this.getByIdQuery.execute(req.params.id);
 
-      return res.status(get.status).json(get.data);
+      return res.status(200).json(book);
     } catch (error) {
       console.error('Error while retrieving book', error);
       return res.status(500).json({ message: 'Error while retrieving book', error });

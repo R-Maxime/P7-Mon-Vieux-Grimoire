@@ -1,6 +1,5 @@
 import { IBook } from '../../../models/Book';
 import IBookRepository from '../../../repositories/Interfaces/IBookRepository';
-import IBookUseCaseResponse from '../../Interfaces/Book/Usecase/IBookUseCaseResponse';
 import IPostBookCommand from '../../Interfaces/Book/Usecase/IPostBookCommand';
 
 export default class PostBookCommand implements IPostBookCommand {
@@ -10,19 +9,16 @@ export default class PostBookCommand implements IPostBookCommand {
     this.bookRepository = bookRepository;
   }
 
-  async execute(bookObject: IBook): Promise<IBookUseCaseResponse> {
-    const book = await this.bookRepository.createBook(bookObject);
+  async execute(bookObject: IBook, imageUrl: string): Promise<String | Error> {
+    const book = await this.bookRepository.createBook({
+      ...bookObject,
+      imageUrl,
+    });
 
     if (!book) {
-      return {
-        status: 500,
-        message: 'Error while creating book',
-      };
+      return Promise.reject(new Error('Book not created'));
     }
 
-    return {
-      status: 201,
-      message: 'Book created',
-    };
+    return Promise.resolve('Book created successfully');
   }
 }

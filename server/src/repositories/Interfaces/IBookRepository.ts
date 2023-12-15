@@ -1,5 +1,10 @@
 import { IBook, MongoIBookModel } from '../../models/Book';
 
+export interface MongoIBookRepository extends IBook {
+  _id: string;
+  IBook: IBook;
+}
+
 /**
  * Represents a repository for managing books.
  */
@@ -52,5 +57,5 @@ export default interface IBookRepository {
    * @param bookObject - The book object with updated data.
    * @returns A promise that resolves to the updated book, or null if not found.
    */
-  updateBook(bookObject: IBook): Promise<IBook | null>;
+  updateBook(bookObject: MongoIBookRepository | IBook): Promise<IBook | null>;
 }

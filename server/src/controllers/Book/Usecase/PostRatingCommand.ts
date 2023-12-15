@@ -1,7 +1,5 @@
-import { IBook } from '../../../models/Book';
 import IBookRepository from '../../../repositories/Interfaces/IBookRepository';
-import IBookUseCaseResponse from '../../Interfaces/Book/Usecase/IBookUseCaseResponse';
-import IPostRatingCommand from '../../Interfaces/Book/Usecase/IPostRatingCommand';
+import IPostRatingCommand, { PostRatingCommandParams } from '../../Interfaces/Book/Usecase/IPostRatingCommand';
 
 export default class PostRatingCommand implements IPostRatingCommand {
   bookRepository: IBookRepository;
@@ -10,20 +8,36 @@ export default class PostRatingCommand implements IPostRatingCommand {
     this.bookRepository = bookRepository;
   }
 
-  async execute(book: IBook): Promise<IBookUseCaseResponse> {
+  async execute({ userId, bookId, rating }: PostRatingCommandParams): Promise<void> {
+    console.log('PostRatingCommand', userId, bookId, rating);
+    const book = await this.bookRepository.getBookById(bookId);
+
+    if (!book) {
+      return Promise.reject(new Error('Book not found'));
+    }
+
+    if (book.ratings.some((r) => r.userId === userId)) {
+      return Promise.reject(new Error('User already rated this book'));
+    }
+
+    if (rating < 0 || rating > 5) {
+      return Promise.reject(new Error('Invalid rating'));
+    }
+
+    book.ratings.push({
+      userId,
+      grade: rating,
+    });
+
+    book.averageRating = book.ratings
+      .reduce((acc, curr) => acc + Number(curr.grade), 0) / book.ratings.length;
+
     const updated = await this.bookRepository.updateBook(book);
 
     if (!updated) {
-      return {
-        status: 500,
-        message: 'Error while updating book',
-      };
+      return Promise.reject(new Error('Book not updated'));
     }
 
-    return {
-      status: 201,
-      message: 'Book updated',
-      data: updated,
-    };
+    return Promise.resolve();
   }
 }

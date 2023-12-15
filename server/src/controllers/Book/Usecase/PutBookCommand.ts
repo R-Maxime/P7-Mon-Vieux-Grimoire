@@ -1,7 +1,5 @@
-import { IBook } from '../../../models/Book';
-import IBookRepository from '../../../repositories/Interfaces/IBookRepository';
+import IBookRepository, { MongoIBookRepository } from '../../../repositories/Interfaces/IBookRepository';
 import DeleteImg from '../../../utils/DeleteImg';
-import IBookUseCaseResponse from '../../Interfaces/Book/Usecase/IBookUseCaseResponse';
 import IPutBookCommand from '../../Interfaces/Book/Usecase/IPutBookCommand';
 
 export default class PutBookCommand implements IPutBookCommand {
@@ -11,23 +9,17 @@ export default class PutBookCommand implements IPutBookCommand {
     this.bookRepository = bookRepository;
   }
 
-  async execute(bookObject: IBook, toDelete: boolean): Promise<IBookUseCaseResponse> {
+  async execute(bookObject: MongoIBookRepository, toDelete: boolean): Promise<String | Error> {
     const book = await this.bookRepository.updateBook(bookObject);
 
     if (!book) {
-      return {
-        status: 500,
-        message: 'Error while updating book',
-      };
+      return Promise.reject(new Error('Book not updated'));
     }
 
     if (toDelete) {
       DeleteImg(book);
     }
 
-    return {
-      status: 201,
-      message: 'Book updated',
-    };
+    return Promise.resolve('Book updated successfully');
   }
 }

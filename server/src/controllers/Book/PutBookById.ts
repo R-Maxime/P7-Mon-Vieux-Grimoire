@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { IBook } from '../../models/Book';
 import GetBookByIdQuery from './Usecase/GetBookByIdQuery';
 import PutBookCommand from './Usecase/PutBookCommand';
 import IPutBookById from '../Interfaces/Book/IPutBookById';
@@ -16,7 +15,7 @@ export default class PutBookById implements IPutBookById {
 
   async execute(req: Request, res: Response): Promise<Response> {
     try {
-      const bookObject: IBook = req.file ? {
+      const bookObject = req.file ? {
         ...JSON.parse(req.body.book),
         imageUrl: `${req.protocol}://${req.get('host')}/public/img/${req.file.filename}`,
       } : {
@@ -27,17 +26,13 @@ export default class PutBookById implements IPutBookById {
 
       const book = await this.getByIdQuery.execute(bookObject._id);
 
-      if (!book.data) {
-        return res.status(book.status).json({ message: book.message });
-      }
-
-      if (book.data.userId !== bookObject.userId) {
-        return res.status(401).json({ message: 'Unauthorized' });
+      if (!book) {
+        return res.status(404).json({ message: 'Book not found' });
       }
 
       const put = await this.putBookCommand.execute(bookObject, !!req.file);
 
-      return res.status(put.status).json({ message: put.message });
+      return res.status(200).json(put);
     } catch (error) {
       console.error('Error while updating book', error);
       return res.status(500).json({ message: 'Error while updating book', error });

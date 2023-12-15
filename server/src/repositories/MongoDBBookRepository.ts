@@ -1,5 +1,5 @@
 import { IBook, MongoIBookModel } from '../models/Book';
-import IBookRepository from './Interfaces/IBookRepository';
+import IBookRepository, { MongoIBookRepository } from './Interfaces/IBookRepository';
 
 export default class MongoDBBookRepository implements IBookRepository {
   readonly bookRepository: typeof MongoIBookModel;
@@ -34,7 +34,7 @@ export default class MongoDBBookRepository implements IBookRepository {
       .limit(3);
   }
 
-  public async updateBook(bookObject: IBook): Promise<IBook | null> {
+  public async updateBook(bookObject: MongoIBookRepository): Promise<IBook | null> {
     return this.bookRepository.findByIdAndUpdate(bookObject._id, bookObject);
   }
 }

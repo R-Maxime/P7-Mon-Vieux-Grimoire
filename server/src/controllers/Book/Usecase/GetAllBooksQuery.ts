@@ -1,5 +1,5 @@
+import { IBook } from '../../../models/Book';
 import IBookRepository from '../../../repositories/Interfaces/IBookRepository';
-import IBookUseCaseResponse from '../../Interfaces/Book/Usecase/IBookUseCaseResponse';
 import IGetAllBooksQuery from '../../Interfaces/Book/Usecase/IGetAllBooksQuery';
 
 export default class GetAllBooksQuery implements IGetAllBooksQuery {
@@ -9,19 +9,13 @@ export default class GetAllBooksQuery implements IGetAllBooksQuery {
     this.bookRepository = bookRepository;
   }
 
-  async execute(): Promise<IBookUseCaseResponse> {
+  async execute(): Promise<IBook[] | Error> {
     const books = await this.bookRepository.getBooks();
 
     if (!books) {
-      return {
-        status: 500,
-        message: 'Error while retrieving books',
-      };
+      return Promise.reject(new Error('Books not found'));
     }
 
-    return {
-      status: 200,
-      datas: books,
-    };
+    return Promise.resolve(books);
   }
 }
