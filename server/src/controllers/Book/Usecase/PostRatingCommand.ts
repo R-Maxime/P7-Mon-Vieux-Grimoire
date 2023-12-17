@@ -9,7 +9,6 @@ export default class PostRatingCommand implements IPostRatingCommand {
   }
 
   async execute({ userId, bookId, rating }: PostRatingCommandParams): Promise<void> {
-    console.log('PostRatingCommand', userId, bookId, rating);
     const book = await this.bookRepository.getBookById(bookId);
 
     if (!book) {
