@@ -32,7 +32,7 @@ export default class PutBookById implements IPutBookById {
 
       const put = await this.putBookCommand.execute(bookObject, !!req.file);
 
-      return res.status(200).json(put);
+      return res.status(201).json({ message: put });
     } catch (error) {
       console.error('Error while updating book', error);
       return res.status(500).json({ message: 'Error while updating book', error });

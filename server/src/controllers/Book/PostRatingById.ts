@@ -17,11 +17,11 @@ export default class PostRatingById implements IPostRatingById {
     try {
       const bookId = req.params.id;
       const { userId, rating } = req.body;
-      this.postRatingCommand.execute({ userId, bookId, rating });
+      await this.postRatingCommand.execute({ userId, bookId, rating });
 
       const book = await this.getByIdQuery.execute(bookId);
 
-      return res.status(200).json(book);
+      return res.status(201).json(book);
     } catch (error) {
       console.error('Error while posting rating', error);
       return res.status(500).json({ message: 'Error while posting rating', error });

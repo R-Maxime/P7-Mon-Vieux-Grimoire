@@ -13,7 +13,7 @@ export default class DeleteBookById implements IDeleteBookById {
     try {
       const deleted = await this.deleteBookCommand.execute(req);
 
-      return res.status(200).json(deleted);
+      return res.status(200).json({ message: deleted });
     } catch (error) {
       console.error('Error while deleting book', error);
       return res.status(500).json({ message: 'Error while deleting book', error });

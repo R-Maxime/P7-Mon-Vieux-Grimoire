@@ -25,7 +25,7 @@ export default class PostBook implements IPostBook {
 
       const post = await this.postBookCommand.execute(bookObject, imageUrl);
 
-      return res.status(200).json(post);
+      return res.status(201).json({ message: post });
     } catch (error) {
       console.error('Error while creating book', error);
       return res.status(500).json({ message: 'Error while creating book', error });
