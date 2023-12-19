@@ -1,9 +1,7 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors';
 import mongoose from 'mongoose';
-import UserRoutes from './routes/User';
-import BooksRoutes from './routes/Book';
+import AppConfig from './AppConfig';
 
 // https://course.oc-static.com/projects/D%C3%A9veloppeur+Web/DW_P7+Back-end/DW+P7+Back-end+-+Specifications+API.pdf
 class App {
@@ -11,15 +9,18 @@ class App {
 
   private readonly MONGO_IP: string;
 
-  private readonly API_PORT = process.env.API_PORT || 4000 as Number;
+  private readonly API_PORT: Number;
 
   constructor() {
     dotenv.config();
+
     this.MONGO_IP = process.env.MONGO_IP as string;
-    this.connectToDatabase();
+    this.API_PORT = Number(process.env.API_PORT) || 4000;
+
     this.expressApp = express();
-    this.setupMiddleware();
-    this.setupRoutes();
+    new AppConfig(this.expressApp);
+
+    this.connectToDatabase();
     this.startServer();
   }
 
@@ -28,25 +29,9 @@ class App {
       await mongoose.connect(this.MONGO_IP as string);
       console.info('[Server]: MongoDB is connected');
     } catch (err) {
-      console.error(err);
+      console.error('[Server]: MongoDB connection failed', err);
+      process.exit(1);
     }
-  }
-
-  private setupMiddleware(): void {
-    this.expressApp.use(express.json());
-    this.expressApp.use(cors());
-
-    this.expressApp.use((req: Request, res: Response, next) => {
-      console.info(`[Server]: ${req.method} ${req.path}`);
-      next();
-    });
-
-    this.expressApp.use('/public', express.static('public'));
-  }
-
-  private setupRoutes(): void {
-    this.expressApp.use('/api/auth', UserRoutes);
-    this.expressApp.use('/api/books', BooksRoutes);
   }
 
   private startServer(): void {

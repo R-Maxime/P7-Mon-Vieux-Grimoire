@@ -48,6 +48,6 @@ export default class SignupCommand {
   }
 
   async hashPassword(password: string): Promise<string> {
-    return this.bcrypt.hash(password, 10);
+    return this.bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
   }
 }
