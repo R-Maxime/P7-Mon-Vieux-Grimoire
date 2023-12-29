@@ -1,25 +1,33 @@
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { Request, Response } from 'express';
 
-export default function Auth(req: Request, res: Response, next: Function) {
+export default function AuthMiddleware(req: Request, res: Response, next: NextFunction): void {
   try {
-    const token: string | undefined = req.headers.authorization?.split(' ')[1];
+    const { authorization } = req.headers;
+    if (!authorization) {
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+
+    const token = authorization.split(' ')[1];
+
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload;
-    const { userId } = decodedToken;
+    const { userId } = decodedToken as { userId: string };
 
-    if (req.body.userId && req.body.userId !== userId) {
-      return res.status(403).json({ error: 'Unauthorized' });
+    if (!userId) {
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
     }
 
+    req.body.userId = userId;
     next();
-    return true;
-  } catch (error: any) {
-    console.error(error);
-    res.status(401).json({ error: error.message });
-    return false;
+  } catch (error) {
+    console.error('Error while authenticating user: ', error);
+    res.status(500).json({ message: 'Error while authenticating user', error });
   }
 }
